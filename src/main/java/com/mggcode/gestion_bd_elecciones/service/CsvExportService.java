@@ -28,7 +28,7 @@ public class CsvExportService {
     private CircunscripcionRepository circunscripcionRepository;
 
     public void writeCPToCsv(List<CircunscripcionPartido> cp, Writer writer) {
-        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
             csvPrinter.printRecord("Cod Circunscripcion", "Cod Partido", "Escanios_desde", "Escanios_hasta", "Porcentaje Voto",
                     "Votantes", "Escanios_desde_historico", "Escanios_hasta_historico", "Votantes historico", "Escanios_desde_sondeo",
                     "Escanios_hasta_sondeo", "Porcentaje Voto Sondeo"
@@ -47,7 +47,7 @@ public class CsvExportService {
     }
 
     public void writePartidoToCsv(List<Partido> partidos, Writer writer) {
-        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
             csvPrinter.printRecord("Codigo", "Siglas", "Codigo padre", "Nombre completo");
             for (Partido par : partidos) {
                 csvPrinter.printRecord(par.getCodigo(), par.getSiglas(), par.getCodigoPadre(), par.getNombreCompleto());
@@ -58,7 +58,7 @@ public class CsvExportService {
     }
 
     public void writeCircunscripcionToCsv(List<Circunscripcion> circunscripciones, Writer writer) {
-        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
             csvPrinter.printRecord("Codigo", "Comunidad Autonoma", "Provincia", "Municipio", "Descripcion",
                     "Escrutado", "Escanios", "Avance 1", "Avance 2", "Avance 3", "Participacion", "Votantes",
                     "Escanios Historicos", "Avance 1 Historico", "Avance 2 Historico", "Avance 3 Historico", "Participacion Historica");
