@@ -20,7 +20,7 @@ public class Partido {
     private String siglas;
 
     @Column(name = "padre")
-    private String siglasPadre;
+    private String codigoPadre;
 
     @Column(name = "descripcion")
     private String nombreCompleto;

@@ -102,6 +102,37 @@ public class CircunscripcionPartidoController {
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
 
+    @GetMapping("/mayorias/{codigo}")
+    public ResponseEntity<List<CircunscripcionPartido>> masVotadosAutonomicoPorProvincia(@PathVariable("codigo") String cod1) {
+        List<CircunscripcionPartido> mayoritarios = circunscripcionPartidoService.findAll()
+                .stream().filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
+                .filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
+                .filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
+                .sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .collect(Collectors.toList());
+        List<String> provincia = new ArrayList<>();
+        List<CircunscripcionPartido> filtrada = new ArrayList<>();
+        for (CircunscripcionPartido cp : mayoritarios) {
+            String codigo = cp.getKey().getCircunscripcion().substring(0, 4);
+            if (!provincia.contains(codigo)) {
+                filtrada.add(cp);
+                provincia.add(codigo);
+            }
+        }
+        //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
+        //filtrada.remove(0);
+        filtrada.sort(new Comparador());
+        return new ResponseEntity<>(filtrada, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/mayorias/{codigo}/csv")
+    public void masVotadosAutonomicoPorProvinciaInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"CP_MasVotadoPorProvincia_" + cod1 + ".csv\"");
+        List<CircunscripcionPartido> cp = masVotadosAutonomicoPorProvincia(cod1).getBody();
+        csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
+    }
+
 
     @PostMapping
     public ResponseEntity<CircunscripcionPartido> create(@RequestBody CircunscripcionPartido circunscripcionPartido) {
