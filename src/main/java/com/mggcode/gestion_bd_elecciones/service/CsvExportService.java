@@ -1,5 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.service;
 
+import com.mggcode.gestion_bd_elecciones.DTO.CarmenDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.CpDTO;
 import com.mggcode.gestion_bd_elecciones.model.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.Partido;
@@ -67,6 +69,34 @@ public class CsvExportService {
                         cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(), cir.getAvance1(), cir.getAvance2(),
                         cir.getAvance3(), cir.getParticipacion(), cir.getVotantes(), cir.getEscaniosHistoricos(), cir.getAvance1Hist(),
                         cir.getAvance2Hist(), cir.getAvance3Hist(), cir.getParticipacionHist()
+                );
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeCarmenDTOToCsv(CarmenDTO cDTO, Writer writer) {
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
+            csvPrinter.printRecord("Codigo", "Comunidad Autonoma", "Provincia", "Municipio", "Descripcion",
+                    "Escrutado", "Escanios", "Avance 1", "Avance 2", "Avance 3", "Participacion", "Votantes",
+                    "Escanios Historicos", "Avance 1 Historico", "Avance 2 Historico", "Avance 3 Historico", "Participacion Historica", "Numero de partidos");
+            Circunscripcion cir = cDTO.getCircunscripcion();
+            csvPrinter.printRecord(cir.getCodigo(), cir.getCodigoComunidad(), cir.getCodigoProvincia(), cir.getCodigoMunicipio(),
+                    cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(), cir.getAvance1(), cir.getAvance2(),
+                    cir.getAvance3(), cir.getParticipacion(), cir.getVotantes(), cir.getEscaniosHistoricos(), cir.getAvance1Hist(),
+                    cir.getAvance2Hist(), cir.getAvance3Hist(), cir.getParticipacionHist(), cDTO.getNumPartidos()
+            );
+
+            csvPrinter.printRecord("Cod Padre", "Escanios_desde", "Escanios_hasta",
+                    "Escanios_desde_historico", "Escanios_hasta_historico", "Porcentaje Voto",
+                    "Porcentaje historico", "Votantes", "Siglas", "Literal"
+            );
+
+            for (CpDTO dto : cDTO.getCpDTO()) {
+                csvPrinter.printRecord(dto.getCodigoPadre(), dto.getEscanos_desde(), dto.getEscanos_hasta(),
+                        dto.getEscanos_desde_hist(), dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
+                        dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido()
                 );
             }
         } catch (IOException e) {

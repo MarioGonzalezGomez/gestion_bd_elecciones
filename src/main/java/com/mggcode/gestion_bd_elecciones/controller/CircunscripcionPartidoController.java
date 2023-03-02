@@ -145,6 +145,7 @@ public class CircunscripcionPartidoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //Busca un partido en una circunscripción determinada
     @GetMapping("/{codigo1}/{codigo2}")
     public ResponseEntity<CircunscripcionPartido> findById(@PathVariable("codigo1") String cod1, @PathVariable("codigo2") String cod2) {
         Key key = new Key(cod1, cod2);
@@ -154,7 +155,7 @@ public class CircunscripcionPartidoController {
         }
         return new ResponseEntity<>(circunscripcionPartido, HttpStatus.OK);
     }
-
+//Devuelve todos los partidos de una circunscripción dada
     @GetMapping("/circunscripcion/{codigo}")
     public ResponseEntity<List<CircunscripcionPartido>> findByIdCircunscripcion(@PathVariable("codigo") String cod1) {
         return new ResponseEntity<>(circunscripcionPartidoService.findByIdCircunscripcion(cod1), HttpStatus.OK);
