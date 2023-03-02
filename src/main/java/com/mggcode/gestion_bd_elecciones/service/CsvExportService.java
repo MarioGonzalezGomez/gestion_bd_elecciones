@@ -5,12 +5,8 @@ import com.mggcode.gestion_bd_elecciones.DTO.CpDTO;
 import com.mggcode.gestion_bd_elecciones.model.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.Partido;
-import com.mggcode.gestion_bd_elecciones.repository.CircunscripcionPartidoRepository;
-import com.mggcode.gestion_bd_elecciones.repository.CircunscripcionRepository;
-import com.mggcode.gestion_bd_elecciones.repository.PartidoRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,15 +15,6 @@ import java.util.List;
 
 @Service
 public class CsvExportService {
-
-    @Autowired
-    private CircunscripcionPartidoRepository circunscripcionPartidoRepository;
-
-    @Autowired
-    private PartidoRepository partidoRepository;
-
-    @Autowired
-    private CircunscripcionRepository circunscripcionRepository;
 
     public void writeCPToCsv(List<CircunscripcionPartido> cp, Writer writer) {
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {

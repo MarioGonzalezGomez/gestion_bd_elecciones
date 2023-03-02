@@ -3,6 +3,7 @@ package com.mggcode.gestion_bd_elecciones.controller;
 import com.mggcode.gestion_bd_elecciones.exception.ModelNotFoundException;
 import com.mggcode.gestion_bd_elecciones.model.Partido;
 import com.mggcode.gestion_bd_elecciones.service.CsvExportService;
+import com.mggcode.gestion_bd_elecciones.service.ExcelExportService;
 import com.mggcode.gestion_bd_elecciones.service.PartidoService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class PartidoController {
     @Autowired
     private CsvExportService csvExportService;
 
+    @Autowired
+    private ExcelExportService excelExportService;
+
 
     //RespondeEntity nos permite devolver el codigo http de estado
     @GetMapping
@@ -37,6 +41,14 @@ public class PartidoController {
         servletResponse.addHeader("Content-Disposition", "attachment; filename=\"Partidos.csv\"");
         List<Partido> partidos = findAll().getBody();
         csvExportService.writePartidoToCsv(partidos, servletResponse.getWriter());
+    }
+
+    @RequestMapping(path = "/excel")
+    public void findAllInExcel(HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"Partidos.xlsx\"");
+        List<Partido> partidos = findAll().getBody();
+        excelExportService.writePartidoToExcel(partidos, servletResponse);
     }
 
     @PostMapping

@@ -1,6 +1,6 @@
 package com.mggcode.gestion_bd_elecciones.DTO;
 
-import jakarta.persistence.Column;
+
 import lombok.Builder;
 import lombok.Data;
 
