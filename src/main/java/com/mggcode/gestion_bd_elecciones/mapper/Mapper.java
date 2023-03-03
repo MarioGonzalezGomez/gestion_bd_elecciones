@@ -2,17 +2,14 @@ package com.mggcode.gestion_bd_elecciones.mapper;
 
 import com.mggcode.gestion_bd_elecciones.DTO.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.CpDTO;
-import com.mggcode.gestion_bd_elecciones.controller.CircunscripcionController;
-import com.mggcode.gestion_bd_elecciones.controller.CircunscripcionPartidoController;
-import com.mggcode.gestion_bd_elecciones.controller.PartidoController;
 import com.mggcode.gestion_bd_elecciones.model.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.Partido;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class Mapper {
 

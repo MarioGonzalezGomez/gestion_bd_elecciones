@@ -6,6 +6,7 @@ import com.mggcode.gestion_bd_elecciones.model.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.Key;
 import com.mggcode.gestion_bd_elecciones.service.CircunscripcionPartidoService;
 import com.mggcode.gestion_bd_elecciones.service.CsvExportService;
+import com.mggcode.gestion_bd_elecciones.service.ExcelExportService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.RandomAccess;
 import java.util.stream.Collectors;
 
 @RestController
@@ -72,6 +74,15 @@ public class CircunscripcionPartidoController {
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
 
+    @RequestMapping(path = "/mayorias/autonomias/excel")
+    public void masVotadosPorAutonomiaInExcel(HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=MayoriasPorAutonomia.xlsx");
+        List<CircunscripcionPartido> cps = masVotadosPorAutonomia().getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
+    }
+
     //Devuelve solo el partido mayoritario en España por provincia
     @GetMapping("/mayorias/provincias")
     public ResponseEntity<List<CircunscripcionPartido>> masVotadosPorProvincia() {
@@ -102,6 +113,16 @@ public class CircunscripcionPartidoController {
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
 
+    @RequestMapping(path = "/mayorias/provincias/excel")
+    public void masVotadosPorProvinciaInExcel(HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=MayoriasPorProvincia.xlsx");
+        List<CircunscripcionPartido> cps = masVotadosPorProvincia().getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
+    }
+
+    //Mas votados en una Autonomia(De la que se pide codigo) por provincia (elimina los municipios)
     @GetMapping("/mayorias/{codigo}")
     public ResponseEntity<List<CircunscripcionPartido>> masVotadosAutonomicoPorProvincia(@PathVariable("codigo") String cod1) {
         List<CircunscripcionPartido> mayoritarios = circunscripcionPartidoService.findAll()
@@ -133,6 +154,15 @@ public class CircunscripcionPartidoController {
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
 
+    @RequestMapping(path = "/mayorias/{codigo}/excel")
+    public void masVotadosAutonomicoPorProvinciaInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=Mayorias_" + cod1 + "_PorProvincia.xlsx");
+        List<CircunscripcionPartido> cps = masVotadosAutonomicoPorProvincia(cod1).getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
+    }
+
 
     @PostMapping
     public ResponseEntity<CircunscripcionPartido> create(@RequestBody CircunscripcionPartido circunscripcionPartido) {
@@ -155,7 +185,8 @@ public class CircunscripcionPartidoController {
         }
         return new ResponseEntity<>(circunscripcionPartido, HttpStatus.OK);
     }
-//Devuelve todos los partidos de una circunscripción dada
+
+    //Devuelve todos los partidos de una circunscripción dada
     @GetMapping("/circunscripcion/{codigo}")
     public ResponseEntity<List<CircunscripcionPartido>> findByIdCircunscripcion(@PathVariable("codigo") String cod1) {
         return new ResponseEntity<>(circunscripcionPartidoService.findByIdCircunscripcion(cod1), HttpStatus.OK);
@@ -168,6 +199,16 @@ public class CircunscripcionPartidoController {
         List<CircunscripcionPartido> cp = findByIdCircunscripcion(cod1).getBody();
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
+
+    @RequestMapping(path = "/circunscripcion/{codigo}/excel")
+    public void findByIdCircunscripcionInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=PartidosEn_" + cod1 + ".xlsx");
+        List<CircunscripcionPartido> cps = findByIdCircunscripcion(cod1).getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
+    }
+
 
     //Obtener todos los datos de un partido en una autonomía en específico
     @GetMapping("/circunscripcion/{codigo1}/partido/{codigo2}")
@@ -184,6 +225,15 @@ public class CircunscripcionPartidoController {
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CP_" + cod1 + "_" + cod2 + ".csv\"");
         List<CircunscripcionPartido> cp = findByIdPartidoAutonomicoPorProvincias(cod1, cod2).getBody();
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
+    }
+
+    @RequestMapping(path = "/circunscripcion/{codigo1}/partido/{codigo2}/excel")
+    public void findByIdPartidoAutonomicoPorProvinciasInExcel(@PathVariable("codigo1") String cod1, @PathVariable("codigo2") String cod2, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=Partido_" + cod2 + "En_" + cod1 + ".xlsx");
+        List<CircunscripcionPartido> cps = findByIdPartidoAutonomicoPorProvincias(cod1, cod2).getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
     }
 
     //Obtener datos de un partido en España, por autonomías
@@ -203,6 +253,15 @@ public class CircunscripcionPartidoController {
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
 
+    @RequestMapping(path = "/partido/{codigo}/autonomias/orderByCodAuto/excel")
+    public void findByIdPartidoAutonomiasCodInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=Partido_" + cod1 + "_PorAutonomias_OrdenCodAuto.xlsx");
+        List<CircunscripcionPartido> cps = findByIdPartidoAutonomiasCod(cod1).getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
+    }
+
     @GetMapping("/partido/{codigo}/autonomias/orderByEscanios")
     public ResponseEntity<List<CircunscripcionPartido>> findByIdPartidoAutonomiasEscanios(@PathVariable("codigo") String cod1) {
         List<CircunscripcionPartido> listaPartido = circunscripcionPartidoService.findByIdPartido(cod1)
@@ -220,6 +279,15 @@ public class CircunscripcionPartidoController {
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
 
+    @RequestMapping(path = "partido/{codigo}/autonomias/orderByEscanios/excel")
+    public void findByIdPartidoAutonomiasEscaniosInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=Partido_" + cod1 + "_PorAutonomias_OrdenByEscanios.xlsx");
+        List<CircunscripcionPartido> cps = findByIdPartidoAutonomiasEscanios(cod1).getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
+    }
+
     //Obtener datos de un partido en España, por provincias
     @GetMapping("/partido/{codigo}/provincias")
     public ResponseEntity<List<CircunscripcionPartido>> findByIdPartidoProvincias(@PathVariable("codigo") String cod1) {
@@ -234,6 +302,15 @@ public class CircunscripcionPartidoController {
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CP_Partido_" + cod1 + "_Provincias.csv\"");
         List<CircunscripcionPartido> cp = findByIdPartidoProvincias(cod1).getBody();
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
+    }
+
+    @RequestMapping(path = "/partido/{codigo}/provincias/excel")
+    public void findByIdPartidoProvinciasInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=Partido_" + cod1 + "_PorProvincias.xlsx");
+        List<CircunscripcionPartido> cps = findByIdPartidoProvincias(cod1).getBody();
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
     }
 
     @DeleteMapping("/{codigo1}/{codigo2}")

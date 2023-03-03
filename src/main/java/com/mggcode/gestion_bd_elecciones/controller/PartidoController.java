@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.RandomAccess;
 
 @RestController
 @RequestMapping("/partidos")
@@ -25,8 +26,8 @@ public class PartidoController {
     @Autowired
     private CsvExportService csvExportService;
 
-    @Autowired
-    private ExcelExportService excelExportService;
+    // @Autowired
+    //private ExcelExportService excelExportService;
 
 
     //RespondeEntity nos permite devolver el codigo http de estado
@@ -43,12 +44,15 @@ public class PartidoController {
         csvExportService.writePartidoToCsv(partidos, servletResponse.getWriter());
     }
 
+    //Imagino que pesa demasiado el proceso y no es capaz de sacar el excel
     @RequestMapping(path = "/excel")
     public void findAllInExcel(HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");
-        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"Partidos.xlsx\"");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=Partidos.xlsx");
         List<Partido> partidos = findAll().getBody();
-        excelExportService.writePartidoToExcel(partidos, servletResponse);
+        partidos = partidos.subList(0, 500);
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) partidos, 1, servletResponse);
     }
 
     @PostMapping
@@ -69,6 +73,17 @@ public class PartidoController {
             throw new ModelNotFoundException("Partido no encontrado");
         }
         return new ResponseEntity<>(partido, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/{codPartido}/excel")
+    public void findByIdInExcel(@PathVariable("codPartido") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=Partido" + cod1 + ".xlsx");
+        Partido partido = findById(cod1).getBody();
+        List<Partido> partidos = new ArrayList<>();
+        partidos.add(partido);
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) partidos, 1, servletResponse);
     }
 
     @RequestMapping(path = "/{codPartido}/csv")
