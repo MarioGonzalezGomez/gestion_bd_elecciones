@@ -1,0 +1,52 @@
+package com.mggcode.gestion_bd_elecciones.model.autonomicas;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+
+@Data
+@Entity
+@Table(name = "circunscripcion_partido")
+public class CircunscripcionPartido {
+
+    @EmbeddedId
+    private Key key;
+
+    @Column
+    private int escanos_desde;
+
+    @Column
+    private int escanos_hasta;
+
+    @Column(name = "votos")
+    private double porcentajeVoto;
+
+    @Column(name = "votantes")
+    private int numVotantes;
+
+    @Column
+    private int escanos_desde_hist;
+
+    @Column
+    private int escanos_hasta_hist;
+
+    @Column(name = "votos_hist")
+    private double votantesHistorico;
+
+    @Column(name = "votantes_hist")
+    private int numVotantesHistorico;
+
+    @Column
+    private int escanos_desde_sondeo;
+
+    @Column
+    private int escanos_hasta_sondeo;
+
+    @Column(name = "votos_sondeo")
+    private double porcentajeVotoSondeo;
+
+
+}
