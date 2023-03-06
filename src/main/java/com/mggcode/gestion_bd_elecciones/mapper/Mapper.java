@@ -27,6 +27,7 @@ public class Mapper {
                     .porcentajeVotoHistorico(x.getVotantesHistorico())
                     .siglas(pTemp.getSiglas())
                     .literalPartido(pTemp.getNombreCompleto())
+                    .codigoPartido(pTemp.getCodigo())
                     .codigoPadre(pTemp.getCodigoPadre())
                     .build();
             cpDTO.add(cpTemp);

@@ -1,11 +1,12 @@
 package com.mggcode.gestion_bd_elecciones.service;
 
+import com.mggcode.gestion_bd_elecciones.DTO.CarmenDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.CpDTO;
 import com.mggcode.gestion_bd_elecciones.model.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.Partido;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.RandomAccess;
 
@@ -53,6 +54,7 @@ public class ExcelExportService {
             case 1 -> nombrePagina = "Partidos";
             case 2 -> nombrePagina = "Circunscripciones";
             case 3 -> nombrePagina = "Circunscripcion-Partido";
+            case 4 -> nombrePagina = "CarmenDTO";
             default -> nombrePagina = "Pag1";
         }
     }
@@ -106,6 +108,16 @@ public class ExcelExportService {
                 createCell(row, 11, "ESCANIOS HASTA SONDEO", style);
                 createCell(row, 12, "PORCENTAJE VOTO SONDEO", style);
                 break;
+            case 4:
+                createCell(row, 0, "CIRCUNSCRIPCION", style);
+                createCell(row, 1, "ESCANIOS TOTALES", style);
+                createCell(row, 2, "PARTIDOS CON ESCANIO", style);
+                createCell(row, 3, "ESCRUTADO ACTUAL", style);
+                createCell(row, 4, "ESCRUTADO ANTERIOR", style);
+                createCell(row, 5, "AUTONOMIA", style);
+                createCell(row, 6, "PROVINCIA", style);
+                createCell(row, 7, "MUNICIPIO", style);
+                break;
             default:
                 break;
         }
@@ -152,6 +164,10 @@ public class ExcelExportService {
             case 3:
                 List<CircunscripcionPartido> cps = (List<CircunscripcionPartido>) listado;
                 cps.forEach(x -> createCP(x, style));
+                break;
+            case 4:
+                List<CarmenDTO> carmenDTOS = (List<CarmenDTO>) listado;
+                createCarmenDTO(carmenDTOS.get(0), style);
                 break;
             default:
                 break;
@@ -208,6 +224,50 @@ public class ExcelExportService {
         createCell(row, columnCount++, x.getEscanos_hasta_sondeo(), style);
         createCell(row, columnCount++, x.getPorcentajeVotoSondeo(), style);
 
+    }
+
+    private void createCarmenDTO(CarmenDTO x, CellStyle style) {
+        Row row = sheet.createRow(rowCount++);
+        int columnCount = 0;
+        createCell(row, columnCount++, x.getCircunscripcion().getNombreCircunscripcion(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getEscanios(), style);
+        createCell(row, columnCount++, x.getNumPartidos(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getEscrutado(), style);
+        createCell(row, columnCount++, "Sin datos", style);
+        createCell(row, columnCount++, x.getCircunscripcion().getCodigoComunidad(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getCodigoProvincia(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getCodigoMunicipio(), style);
+
+        row = sheet.createRow(rowCount++);
+
+        createCell(row, 0, "COD PARTIDO", style);
+        createCell(row, 1, "COD PADRE", style);
+        createCell(row, 2, "ESCANIOS DESDE", style);
+        createCell(row, 3, "ESCANIOS HASTA", style);
+        createCell(row, 4, "ESCANIOS DESDE HIST", style);
+        createCell(row, 5, "ESCANIOS HASTA HIST", style);
+        createCell(row, 6, "PORCENTAJE VOTO", style);
+        createCell(row, 7, "PORCENTAJE VOTO HISTORICO", style);
+        createCell(row, 8, "VOTANTES", style);
+        createCell(row, 9, "SIGLAS", style);
+        createCell(row, 10, "LITERAL", style);
+
+        List<CpDTO> cpdtos = x.getCpDTO();
+        cpdtos.forEach(y -> {
+            Row newRow = sheet.createRow(rowCount++);
+            int column = 0;
+            createCell(newRow, column++, y.getCodigoPartido(), style);
+            createCell(newRow, column++, y.getCodigoPadre(), style);
+            createCell(newRow, column++, y.getEscanos_desde(), style);
+            createCell(newRow, column++, y.getEscanos_hasta(), style);
+            createCell(newRow, column++, y.getEscanos_desde_hist(), style);
+            createCell(newRow, column++, y.getEscanos_hasta_hist(), style);
+            createCell(newRow, column++, y.getPorcentajeVoto(), style);
+            createCell(newRow, column++, y.getPorcentajeVotoHistorico(), style);
+            createCell(newRow, column++, y.getNumVotantes(), style);
+            createCell(newRow, column++, y.getSiglas(), style);
+            createCell(newRow, column++, y.getLiteralPartido(), style);
+        });
     }
 
 

@@ -8,6 +8,7 @@ import com.mggcode.gestion_bd_elecciones.model.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.Partido;
 import com.mggcode.gestion_bd_elecciones.service.CircunscripcionPartidoService;
 import com.mggcode.gestion_bd_elecciones.service.CsvExportService;
+import com.mggcode.gestion_bd_elecciones.service.ExcelExportService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.RandomAccess;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,6 +42,8 @@ public class CarmenDTOController {
     private CsvExportService csvExportService;
 
 
+    //Este DTO trae los partidos de una circunscripción dada por código
+    // ordenados del modo en que Carmen necesita para sus gráficos
     @GetMapping("/{codigo}")
     public ResponseEntity<CarmenDTO> getCarmenDTO(@PathVariable("codigo") String cod1) {
 
@@ -65,10 +69,21 @@ public class CarmenDTOController {
     }
 
     @RequestMapping(path = "/{codigo}/csv")
-    public void findByIdCircunscripcionInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+    public void getCarmenDTOInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CP_DatosCircunscripcion_" + cod1 + ".csv\"");
         CarmenDTO dto = getCarmenDTO(cod1).getBody();
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
+    }
+
+    @RequestMapping(path = "{codigo}/excel")
+    public void getCarmenDTOInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("application/octet-stream");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=CarmenDTO" + cod1 + ".xlsx");
+        CarmenDTO dto = getCarmenDTO(cod1).getBody();
+        List<CarmenDTO> listado = new ArrayList<>();
+        listado.add(dto);
+        ExcelExportService excelExportService = new ExcelExportService();
+        excelExportService.writeToExcel((RandomAccess) listado, 4, servletResponse);
     }
 }

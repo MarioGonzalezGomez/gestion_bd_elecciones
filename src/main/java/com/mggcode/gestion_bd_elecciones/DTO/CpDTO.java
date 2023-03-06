@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class CpDTO {
+    private String codigoPartido;
     private String codigoPadre;
     private int escanos_desde;
     private int escanos_hasta;
