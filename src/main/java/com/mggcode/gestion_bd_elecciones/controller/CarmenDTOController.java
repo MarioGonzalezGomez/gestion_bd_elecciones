@@ -71,7 +71,7 @@ public class CarmenDTOController {
     @RequestMapping(path = "/{codigo}/csv")
     public void getCarmenDTOInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
-        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CP_DatosCircunscripcion_" + cod1 + ".csv\"");
+        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CarmenDTO_" + cod1 + ".csv\"");
         CarmenDTO dto = getCarmenDTO(cod1).getBody();
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
     }
@@ -79,7 +79,7 @@ public class CarmenDTOController {
     @RequestMapping(path = "{codigo}/excel")
     public void getCarmenDTOInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");
-        servletResponse.addHeader("Content-Disposition", "attachment; filename=CarmenDTO" + cod1 + ".xlsx");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=CarmenDTO_" + cod1 + ".xlsx");
         CarmenDTO dto = getCarmenDTO(cod1).getBody();
         List<CarmenDTO> listado = new ArrayList<>();
         listado.add(dto);
