@@ -26,10 +26,6 @@ public class PartidoController {
     @Autowired
     private CsvExportService csvExportService;
 
-    // @Autowired
-    //private ExcelExportService excelExportService;
-
-
     //RespondeEntity nos permite devolver el codigo http de estado
     @GetMapping
     public ResponseEntity<List<Partido>> findAll() {
@@ -75,6 +71,15 @@ public class PartidoController {
         return new ResponseEntity<>(partido, HttpStatus.OK);
     }
 
+    @RequestMapping(path = "/{codPartido}/csv")
+    public void findByIdInCsv(@PathVariable("codPartido") String codPartido, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"Partido" + codPartido + ".csv\"");
+        Partido partido = findById(codPartido).getBody();
+        List<Partido> partidos = new ArrayList<>();
+        partidos.add(partido);
+        csvExportService.writePartidoToCsv(partidos, servletResponse.getWriter());
+    }
     @RequestMapping(path = "/{codPartido}/excel")
     public void findByIdInExcel(@PathVariable("codPartido") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");
@@ -84,16 +89,6 @@ public class PartidoController {
         partidos.add(partido);
         ExcelExportService excelExportService = new ExcelExportService();
         excelExportService.writeToExcel((RandomAccess) partidos, 1, servletResponse);
-    }
-
-    @RequestMapping(path = "/{codPartido}/csv")
-    public void findByIdInCsv(@PathVariable("codPartido") String codPartido, HttpServletResponse servletResponse) throws IOException {
-        servletResponse.setContentType("text/csv");
-        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"Partido" + codPartido + ".csv\"");
-        Partido partido = findById(codPartido).getBody();
-        List<Partido> partidos = new ArrayList<>();
-        partidos.add(partido);
-        csvExportService.writePartidoToCsv(partidos, servletResponse.getWriter());
     }
 
     @DeleteMapping("/{codPartido}")
