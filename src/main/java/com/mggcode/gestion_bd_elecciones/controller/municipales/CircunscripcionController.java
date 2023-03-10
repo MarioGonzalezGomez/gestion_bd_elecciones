@@ -48,7 +48,6 @@ public class CircunscripcionController {
         ExcelExportService excelExportService = new ExcelExportService();
         excelExportService.writeToExcel((RandomAccess) circunscripciones, 2, servletResponse);
     }
-
     @PostMapping
     public ResponseEntity<Circunscripcion> create(@RequestBody Circunscripcion circunscripcion) {
         return new ResponseEntity<>(circunscripcionService.create(circunscripcion), HttpStatus.CREATED);

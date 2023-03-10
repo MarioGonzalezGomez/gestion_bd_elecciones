@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -49,6 +50,13 @@ public class PartidoController {
         partidos = partidos.subList(0, 500);
         ExcelExportService excelExportService = new ExcelExportService();
         excelExportService.writeToExcel((RandomAccess) partidos, 1, servletResponse);
+    }
+
+    @GetMapping("/vista")
+    public String verPartidos(Model model) {
+        List<Partido> partidos = findAll().getBody();
+        model.addAttribute("partidos", partidos);
+        return "partidos";
     }
 
     @PostMapping

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -48,7 +49,6 @@ public class ACircunscripcionController {
         AExcelExportService excelExportService = new AExcelExportService();
         excelExportService.writeToExcel((RandomAccess) circunscripciones, 2, servletResponse);
     }
-
     @PostMapping
     public ResponseEntity<Circunscripcion> create(@RequestBody Circunscripcion circunscripcion) {
         return new ResponseEntity<>(circunscripcionService.create(circunscripcion), HttpStatus.CREATED);
@@ -88,6 +88,13 @@ public class ACircunscripcionController {
         circunscripciones.add(circunscripcion);
         AExcelExportService excelExportService = new AExcelExportService();
         excelExportService.writeToExcel((RandomAccess) circunscripciones, 2, servletResponse);
+    }
+
+    @RequestMapping(path = "/{codigo}/vista")
+    public String verCircunscripciones(@PathVariable("codigo") String cod1, Model model) {
+        Circunscripcion circunscripcion = findById(cod1).getBody();
+        // model.addAttribute("circunscripciones", circuns);
+        return "circunscripciones";
     }
 
     @DeleteMapping("/{codigo}")
