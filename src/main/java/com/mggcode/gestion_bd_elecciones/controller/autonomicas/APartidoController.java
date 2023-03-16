@@ -47,7 +47,7 @@ public class APartidoController {
         servletResponse.setContentType("application/octet-stream");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=Partidos.xlsx");
         List<Partido> partidos = findAll().getBody();
-        partidos = partidos.subList(0, 500);
+        partidos = partidos.subList(0, 300);
         AExcelExportService excelExportService = new AExcelExportService();
         excelExportService.writeToExcel((RandomAccess) partidos, 1, servletResponse);
     }

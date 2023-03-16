@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/autonomicas")
 public class AIPFController {
 
-    private final ConexionIPF c = ConexionIPF.getConexion();
-    private final ConfigIPF conf = ConfigIPF.getConfiguracion();
-
-
-    @GetMapping("/ejemploIPF/entra")
-    public String entra(Model model) {
-        String bd = ConfigIPF.config.getProperty("BDAutonomicas");
-        c.enviarMensaje("itemset('" + bd + "MAPA/ENTRA','EVENT_RUN');");
-        return "index";
-    }
-
-    @GetMapping("/ejemploIPF/sale")
-    public String sale(Model model) {
-        String bd = ConfigIPF.config.getProperty("BDAutonomicas");
-        c.enviarMensaje("itemset('" + bd + "MAPA/SALE','EVENT_RUN');");
-        return "index";
-    }
+//    private final ConexionIPF c = ConexionIPF.getConexion();
+//    private final ConfigIPF conf = ConfigIPF.getConfiguracion();
+//
+//
+//    @GetMapping("/ejemploIPF/entra")
+//    public String entra(Model model) {
+//        String bd = ConfigIPF.config.getProperty("BDAutonomicas");
+//        c.enviarMensaje("itemset('" + bd + "MAPA/ENTRA','EVENT_RUN');");
+//        return "index";
+//    }
+//
+//    @GetMapping("/ejemploIPF/sale")
+//    public String sale(Model model) {
+//        String bd = ConfigIPF.config.getProperty("BDAutonomicas");
+//        c.enviarMensaje("itemset('" + bd + "MAPA/SALE','EVENT_RUN');");
+//        return "index";
+//    }
 }
