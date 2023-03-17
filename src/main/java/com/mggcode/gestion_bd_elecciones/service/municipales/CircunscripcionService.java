@@ -3,6 +3,7 @@ package com.mggcode.gestion_bd_elecciones.service.municipales;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.repository.municipales.CircunscripcionRepository;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
