@@ -13,16 +13,16 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-@EnableKafka
-@Configuration
+//@EnableKafka
+//@Configuration
 public class KafkaConsumerConfig {
 
-    @Value(value = "${spring.kafka.bootstrap-servers}")
+   // @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
-    @Value(value = "${spring.kafka.consumer.group-id}")
+   // @Value(value = "${spring.kafka.consumer.group-id}")
     private String groupId;
-    @Bean
+   // @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(
@@ -40,7 +40,7 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
-    @Bean
+  //  @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String>
     kafkaListenerContainerFactory() {
 

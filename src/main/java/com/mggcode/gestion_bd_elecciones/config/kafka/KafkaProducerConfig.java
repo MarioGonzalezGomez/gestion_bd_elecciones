@@ -12,13 +12,13 @@ import org.springframework.kafka.core.ProducerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+//@Configuration
 public class KafkaProducerConfig {
 
-    @Value(value = "${spring.kafka.bootstrap-servers}")
+   // @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
-    @Bean
+  //  @Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
@@ -33,7 +33,7 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
-    @Bean
+   // @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
