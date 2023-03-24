@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 public class EscuchadorBD {
 
 
-    @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${municipales.kafka.consumer.group-id}")
-    public void listenMunicipales(ConsumerRecord<String, String> record) {
-        String payload = record.value();
+    @KafkaListener(topics = "Elecciones.elecciones_municipales_2019.circunscripciones", groupId = "${muni.kafka.consumer.group-id}")
+    public void listenMunicipales() {
         System.out.println("Parece que hay un cambio en Municipales");
         // manejar el cambio de datos
     }
 
-    @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${autonomicas.kafka.consumer.group-id}")
+    @KafkaListener(topics = "Elecciones.elecciones_autonomicas_2019.circunscripciones", groupId = "${auton.kafka.consumer.group-id}")
     public void listenAutonomicas(ConsumerRecord<String, String> record) {
         String payload = record.value();
         System.out.println("Parece que hay un cambio en Autonómicas");
