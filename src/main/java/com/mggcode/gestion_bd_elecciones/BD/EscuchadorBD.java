@@ -15,8 +15,7 @@ public class EscuchadorBD {
     }
 
     @KafkaListener(topics = "Elecciones.elecciones_autonomicas_2019.circunscripciones", groupId = "${auton.kafka.consumer.group-id}")
-    public void listenAutonomicas(ConsumerRecord<String, String> record) {
-        String payload = record.value();
+    public void listenAutonomicas() {
         System.out.println("Parece que hay un cambio en Autonómicas");
         // manejar el cambio de datos
     }
