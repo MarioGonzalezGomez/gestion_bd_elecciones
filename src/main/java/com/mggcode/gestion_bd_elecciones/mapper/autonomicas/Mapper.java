@@ -19,7 +19,6 @@ public class Mapper {
             CpDTO cpTemp = CpDTO.builder()
                     .escanos_desde(x.getEscanos_desde())
                     .escanos_hasta(x.getEscanos_hasta())
-                    .escanos_desde_hist(x.getEscanos_desde_hist())
                     .escanos_hasta_hist(x.getEscanos_hasta_hist())
                     .numVotantes(x.getNumVotantes())
                     .porcentajeVoto(x.getPorcentajeVoto())
