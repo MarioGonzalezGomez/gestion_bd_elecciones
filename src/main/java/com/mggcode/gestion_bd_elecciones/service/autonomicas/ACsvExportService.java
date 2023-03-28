@@ -76,13 +76,13 @@ public class ACsvExportService {
             );
 
             csvPrinter.printRecord("Cod Padre", "Escanios_desde", "Escanios_hasta",
-                    "Escanios_desde_historico", "Escanios_hasta_historico", "Porcentaje Voto",
+                    "Escanios_historicos", "Porcentaje Voto",
                     "Porcentaje historico", "Votantes", "Siglas", "Literal"
             );
 
             for (CpDTO dto : cDTO.getCpDTO()) {
                 csvPrinter.printRecord(dto.getCodigoPadre(), dto.getEscanos_desde(), dto.getEscanos_hasta(),
-                        dto.getEscanos_desde_hist(), dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
+                        dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
                         dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido()
                 );
             }

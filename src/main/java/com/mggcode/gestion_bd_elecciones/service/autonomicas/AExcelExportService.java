@@ -99,13 +99,12 @@ public class AExcelExportService {
                 createCell(row, 3, "ESCANIOS HASTA", style);
                 createCell(row, 4, "PORCENTAJE VOTO", style);
                 createCell(row, 5, "VOTANTES", style);
-                createCell(row, 6, "ESCANIOS DESDE HISTORICO", style);
-                createCell(row, 7, "ESCANIOS HASTA HISTORICO", style);
-                createCell(row, 8, "PORCENTAJE VOTO HISTORICO", style);
-                createCell(row, 9, "VOTANTES HISTORICO", style);
-                createCell(row, 10, "ESCANIOS DESDE SONDEO", style);
-                createCell(row, 11, "ESCANIOS HASTA SONDEO", style);
-                createCell(row, 12, "PORCENTAJE VOTO SONDEO", style);
+                createCell(row, 6, "ESCANIOS HISTORICOS", style);
+                createCell(row, 7, "PORCENTAJE VOTO HISTORICO", style);
+                createCell(row, 8, "VOTANTES HISTORICO", style);
+                createCell(row, 9, "ESCANIOS DESDE SONDEO", style);
+                createCell(row, 10, "ESCANIOS HASTA SONDEO", style);
+                createCell(row, 11, "PORCENTAJE VOTO SONDEO", style);
                 break;
             case 4:
                 createCell(row, 0, "CIRCUNSCRIPCION", style);
@@ -232,7 +231,7 @@ public class AExcelExportService {
         createCell(row, columnCount++, x.getCircunscripcion().getEscanios(), style);
         createCell(row, columnCount++, x.getNumPartidos(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getEscrutado(), style);
-        createCell(row, columnCount++, "Sin datos", style);
+        createCell(row, columnCount++, 0, style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoComunidad(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoProvincia(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoMunicipio(), style);
@@ -243,13 +242,12 @@ public class AExcelExportService {
         createCell(row, 1, "COD PADRE", style);
         createCell(row, 2, "ESCANIOS DESDE", style);
         createCell(row, 3, "ESCANIOS HASTA", style);
-        createCell(row, 4, "ESCANIOS DESDE HIST", style);
-        createCell(row, 5, "ESCANIOS HASTA HIST", style);
-        createCell(row, 6, "PORCENTAJE VOTO", style);
-        createCell(row, 7, "PORCENTAJE VOTO HISTORICO", style);
-        createCell(row, 8, "VOTANTES", style);
-        createCell(row, 9, "SIGLAS", style);
-        createCell(row, 10, "LITERAL", style);
+        createCell(row, 4, "ESCANIOS HIST", style);
+        createCell(row, 5, "PORCENTAJE VOTO", style);
+        createCell(row, 6, "PORCENTAJE VOTO HISTORICO", style);
+        createCell(row, 7, "VOTANTES", style);
+        createCell(row, 8, "SIGLAS", style);
+        createCell(row, 9, "LITERAL", style);
 
         List<CpDTO> cpdtos = x.getCpDTO();
         cpdtos.forEach(y -> {
@@ -259,7 +257,6 @@ public class AExcelExportService {
             createCell(newRow, column++, y.getCodigoPadre(), style);
             createCell(newRow, column++, y.getEscanos_desde(), style);
             createCell(newRow, column++, y.getEscanos_hasta(), style);
-            createCell(newRow, column++, y.getEscanos_desde_hist(), style);
             createCell(newRow, column++, y.getEscanos_hasta_hist(), style);
             createCell(newRow, column++, y.getPorcentajeVoto(), style);
             createCell(newRow, column++, y.getPorcentajeVotoHistorico(), style);
