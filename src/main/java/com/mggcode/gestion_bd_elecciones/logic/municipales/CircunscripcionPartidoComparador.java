@@ -12,9 +12,7 @@ public class CircunscripcionPartidoComparador implements Comparator<Circunscripc
             comp = Double.compare(o1.getPorcentajeVoto(), o2.getPorcentajeVoto());
             if(comp == 0){
                 comp = Integer.compare(o1.getNumVotantes(), o2.getNumVotantes());
-                return comp;
             }
-            return comp;
         }
         return comp;
     }

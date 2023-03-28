@@ -38,10 +38,7 @@ public class CircunscripcionPartidoService {
 
     public List<CircunscripcionPartido> findByIdCircunscripcion(String codCircunscripcion) {
         List<CircunscripcionPartido> lista = circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
-                .stream().filter(x -> x.getEscanos_hasta() > 0).sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed()).collect(Collectors.toList());
-        List<CircunscripcionPartido> lista2 = circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
                 .stream().filter(x -> x.getEscanos_hasta() > 0).sorted(new CircunscripcionPartidoComparador().reversed()).toList();
-
         return lista;
     }
 
