@@ -16,6 +16,7 @@ public class PartidoService implements IBaseService<Partido> {
 
     @Override
     public Partido create(Partido partido) {
+        System.out.println(partido);
         return partidoRepository.save(partido);
     }
 

@@ -9,4 +9,7 @@ public class Comparador implements Comparator<CircunscripcionPartido> {
     public int compare(CircunscripcionPartido o1, CircunscripcionPartido o2) {
         return o1.getKey().getCircunscripcion().compareTo(o2.getKey().getCircunscripcion());
     }
+
+
+
 }

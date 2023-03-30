@@ -1,6 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.service.municipales;
 
 
+import com.mggcode.gestion_bd_elecciones.logic.municipales.CircunscripcionPartidoComparador;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 
 import com.mggcode.gestion_bd_elecciones.model.municipales.Key;
@@ -37,7 +38,7 @@ public class CircunscripcionPartidoService {
 
     public List<CircunscripcionPartido> findByIdCircunscripcion(String codCircunscripcion) {
         List<CircunscripcionPartido> lista = circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
-                .stream().filter(x -> x.getEscanos_hasta() > 0).sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed()).collect(Collectors.toList());
+                .stream().filter(x -> x.getEscanos_hasta() > 0).sorted(new CircunscripcionPartidoComparador().reversed()).toList();
         return lista;
     }
 
