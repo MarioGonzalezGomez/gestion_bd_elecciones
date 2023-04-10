@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -52,13 +51,6 @@ public class PartidoController {
         excelExportService.writeToExcel((RandomAccess) partidos, 1, servletResponse);
     }
 
-    @GetMapping("/vista")
-    public String verPartidos(Model model) {
-        List<Partido> partidos = findAll().getBody();
-        model.addAttribute("partidos", partidos);
-        return "partidos";
-    }
-
     @PostMapping
     public ResponseEntity<Partido> create(@RequestBody Partido partido) {
         return new ResponseEntity<>(partidoService.create(partido), HttpStatus.CREATED);
@@ -88,6 +80,7 @@ public class PartidoController {
         partidos.add(partido);
         csvExportService.writePartidoToCsv(partidos, servletResponse.getWriter());
     }
+
     @RequestMapping(path = "/{codPartido}/excel")
     public void findByIdInExcel(@PathVariable("codPartido") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");

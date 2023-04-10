@@ -115,6 +115,4 @@ public class AVistasController {
         model.addAttribute("rutaExcel", "/autonomicas/cp/partido/" + cod + "/provincias/excel");
         return "cps";
     }
-
-
 }

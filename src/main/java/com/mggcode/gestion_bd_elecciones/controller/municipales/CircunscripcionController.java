@@ -48,6 +48,7 @@ public class CircunscripcionController {
         ExcelExportService excelExportService = new ExcelExportService();
         excelExportService.writeToExcel((RandomAccess) circunscripciones, 2, servletResponse);
     }
+
     @PostMapping
     public ResponseEntity<Circunscripcion> create(@RequestBody Circunscripcion circunscripcion) {
         return new ResponseEntity<>(circunscripcionService.create(circunscripcion), HttpStatus.CREATED);
@@ -67,6 +68,7 @@ public class CircunscripcionController {
         }
         return new ResponseEntity<>(circunscripcion, HttpStatus.OK);
     }
+
     @RequestMapping(path = "/{codigo}/csv")
     public void findByIdInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
