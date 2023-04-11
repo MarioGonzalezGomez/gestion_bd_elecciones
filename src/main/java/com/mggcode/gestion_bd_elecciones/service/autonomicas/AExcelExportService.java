@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.RandomAccess;
 
 
-
 public class AExcelExportService {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
@@ -107,11 +106,11 @@ public class AExcelExportService {
                 createCell(row, 11, "PORCENTAJE VOTO SONDEO", style);
                 break;
             case 4:
-                createCell(row, 0, "CIRCUNSCRIPCION", style);
-                createCell(row, 1, "ESCANIOS TOTALES", style);
-                createCell(row, 2, "PARTIDOS CON ESCANIO", style);
-                createCell(row, 3, "ESCRUTADO ACTUAL", style);
-                createCell(row, 4, "ESCRUTADO ANTERIOR", style);
+                createCell(row, 0, "COD CIRCUNSCRIPCION", style);
+                createCell(row, 1, "NOMBRE", style);
+                createCell(row, 2, "ESCANIOS TOTALES", style);
+                createCell(row, 3, "PARTIDOS CON ESCANIO", style);
+                createCell(row, 4, "ESCRUTADO ACTUAL", style);
                 createCell(row, 5, "AUTONOMIA", style);
                 createCell(row, 6, "PROVINCIA", style);
                 createCell(row, 7, "MUNICIPIO", style);
@@ -227,11 +226,11 @@ public class AExcelExportService {
     private void createCarmenDTO(CarmenDTO x, CellStyle style) {
         Row row = sheet.createRow(rowCount++);
         int columnCount = 0;
+        createCell(row, columnCount++, x.getCircunscripcion().getCodigo(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getNombreCircunscripcion(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getEscanios(), style);
         createCell(row, columnCount++, x.getNumPartidos(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getEscrutado(), style);
-        createCell(row, columnCount++, 0, style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoComunidad(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoProvincia(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoMunicipio(), style);
