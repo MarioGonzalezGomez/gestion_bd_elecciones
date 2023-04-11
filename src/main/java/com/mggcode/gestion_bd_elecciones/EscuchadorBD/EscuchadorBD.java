@@ -1,6 +1,5 @@
-package com.mggcode.gestion_bd_elecciones.BD;
+package com.mggcode.gestion_bd_elecciones.EscuchadorBD;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
