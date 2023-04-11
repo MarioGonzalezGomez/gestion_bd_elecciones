@@ -65,14 +65,16 @@ public class ACsvExportService {
 
     public void writeCarmenDTOToCsv(CarmenDTO cDTO, Writer writer) {
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
-            csvPrinter.printRecord("Codigo", "Comunidad Autonoma", "Provincia", "Municipio", "Descripcion",
-                    "Escrutado", "Escanios", "Avance 1", "Avance 2", "Avance 3", "Participacion", "Votantes",
-                    "Escanios Historicos", "Avance 1 Historico", "Avance 2 Historico", "Avance 3 Historico", "Participacion Historica", "Numero de partidos");
+            csvPrinter.printRecord("Codigo", "Descripcion", "Escanios", "Numero de partidos", "Escrutado", "Comunidad Autonoma", "Provincia", "Municipio"
+                    //  "Avance 1", "Avance 2", "Avance 3", "Participacion", "Votantes",
+                    // "Escanios Historicos", "Avance 1 Historico", "Avance 2 Historico", "Avance 3 Historico", "Participacion Historica"
+            );
             Circunscripcion cir = cDTO.getCircunscripcion();
-            csvPrinter.printRecord(cir.getCodigo(), cir.getCodigoComunidad(), cir.getCodigoProvincia(), cir.getCodigoMunicipio(),
-                    cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(), cir.getAvance1(), cir.getAvance2(),
-                    cir.getAvance3(), cir.getParticipacion(), cir.getVotantes(), cir.getEscaniosHistoricos(), cir.getAvance1Hist(),
-                    cir.getAvance2Hist(), cir.getAvance3Hist(), cir.getParticipacionHist(), cDTO.getNumPartidos()
+            csvPrinter.printRecord(cir.getCodigo(), cir.getNombreCircunscripcion(), cir.getEscanios(),
+                    cDTO.getNumPartidos(), cir.getEscrutado(), cir.getCodigoComunidad(), cir.getCodigoProvincia(), cir.getCodigoMunicipio()
+                    //  cir.getAvance1(), cir.getAvance2(),
+                    //  cir.getAvance3(), cir.getParticipacion(), cir.getVotantes(), cir.getEscaniosHistoricos(), cir.getAvance1Hist(),
+                    //  cir.getAvance2Hist(), cir.getAvance3Hist(), cir.getParticipacionHist()
             );
 
             csvPrinter.printRecord("Cod Partido", "Cod Padre", "Escanios_desde", "Escanios_hasta",
