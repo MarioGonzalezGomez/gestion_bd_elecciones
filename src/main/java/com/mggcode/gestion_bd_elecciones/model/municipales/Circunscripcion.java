@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "circunscripciones")
-public class Circunscripcion {
+public class  Circunscripcion {
 
     @Id
     @Column(name = "CIRCUNSCRIPCION")

@@ -2,6 +2,7 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDtoList;
 import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.Mapper;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
@@ -67,10 +68,35 @@ public class ACarmenDTOController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @RequestMapping
+    public ResponseEntity<CarmenDtoList> findAll() {
+        List<Circunscripcion> circunscripcionList = cirCon.findAll().getBody();
+
+        List<CircunscripcionPartido> cp = cpCon.findAll().stream()
+                //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
+                .filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
+                //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
+                //.filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
+                .filter(x -> x.getEscanos_hasta() > 0.0)
+                //.sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .collect(Collectors.toList());
+
+        List<Partido> partidos = new ArrayList<>();
+        cp.forEach(x -> {
+            partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
+        });
+        Mapper mapper = new Mapper();
+        var dtoList = circunscripcionList.stream()
+                .filter(c -> c.getCodigo().endsWith("00000") && !c.getCodigo().startsWith("99"))
+                .map(c -> mapper.toDTO(c, cp, partidos)).toList();
+        return new ResponseEntity<>(new CarmenDtoList(dtoList), HttpStatus.OK);
+
+    }
+
     @RequestMapping(path = "/{codigo}/csv")
     public void getCarmenDTOInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
-        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CarmenDTO_" + cod1 + ".csv\"");
+        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=F_" + cod1 + ".csv\"");
         CarmenDTO dto = getCarmenDTO(cod1).getBody();
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
     }
