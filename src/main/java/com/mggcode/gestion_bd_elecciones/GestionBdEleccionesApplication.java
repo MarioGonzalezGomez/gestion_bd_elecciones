@@ -18,8 +18,8 @@ public class GestionBdEleccionesApplication {
 
     @EventListener({ApplicationReadyEvent.class})
     void applicationReadyEvent() {
-        System.out.println("Abriendo cliente");
-        browse("http://localhost:8080");
+        //System.out.println("Abriendo parte gráfica");
+        //browse("http://localhost:8080");
     }
 
     public static void browse(String url) {

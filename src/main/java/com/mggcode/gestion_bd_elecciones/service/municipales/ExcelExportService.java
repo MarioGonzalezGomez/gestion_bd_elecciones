@@ -20,7 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
-
 public class ExcelExportService {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
@@ -109,13 +108,23 @@ public class ExcelExportService {
                 break;
             case 4:
                 createCell(row, 0, "COD CIRCUNSCRIPCION", style);
-                createCell(row, 1, "NOMBRE", style);
-                createCell(row, 2, "ESCANIOS TOTALES", style);
-                createCell(row, 3, "PARTIDOS CON ESCANIO", style);
-                createCell(row, 4, "ESCRUTADO ACTUAL", style);
-                createCell(row, 5, "AUTONOMIA", style);
-                createCell(row, 6, "PROVINCIA", style);
-                createCell(row, 7, "MUNICIPIO", style);
+                createCell(row, 1, "AUTONOMIA", style);
+                createCell(row, 2, "PROVINCIA", style);
+                createCell(row, 3, "MUNICIPIO", style);
+                createCell(row, 4, "NOMBRE", style);
+                createCell(row, 5, "ESCRUTADO ACTUAL", style);
+                createCell(row, 6, "ESCANIOS TOTALES", style);
+                createCell(row, 7, "AVANCE 1", style);
+                createCell(row, 8, "AVANCE 2", style);
+                createCell(row, 9, "AVANCE 3", style);
+                createCell(row, 10, "PARTICIPACIÓN", style);
+                createCell(row, 11, "VOTANTES", style);
+                createCell(row, 12, "ESCANIOS HISTORICO", style);
+                createCell(row, 13, "AVANCE 1 HISTORICO", style);
+                createCell(row, 14, "AVANCE 2 HISTORICO", style);
+                createCell(row, 15, "AVANCE 3 HISTORICO", style);
+                createCell(row, 16, "PARTICIPACIÓN HISTORICO", style);
+                createCell(row, 17, "PARTIDOS CON ESCANIO", style);
                 break;
             default:
                 break;
@@ -229,13 +238,23 @@ public class ExcelExportService {
         Row row = sheet.createRow(rowCount++);
         int columnCount = 0;
         createCell(row, columnCount++, x.getCircunscripcion().getCodigo(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getNombreCircunscripcion(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getEscanios(), style);
-        createCell(row, columnCount++, x.getNumPartidos(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getEscrutado(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoComunidad(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoProvincia(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoMunicipio(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getNombreCircunscripcion(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getEscrutado(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getEscanios(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAvance1(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAvance2(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAvance3(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getParticipacion(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getVotantes(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getEscaniosHistoricos(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAvance1Hist(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAvance2Hist(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAvance3Hist(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getParticipacionHist(), style);
+        createCell(row, columnCount++, x.getNumPartidos(), style);
 
         row = sheet.createRow(rowCount++);
 
