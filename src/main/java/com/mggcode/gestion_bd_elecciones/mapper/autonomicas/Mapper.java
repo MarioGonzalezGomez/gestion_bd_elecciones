@@ -53,7 +53,8 @@ public class Mapper {
                     .aperturaArcoHastaSondeo(aperturas.get(2))
                     .build();
             cpDTO.add(cpTemp);
-            posicionesIniciales = posicionesFinales;
+            posicionesIniciales.clear();
+            posicionesIniciales.addAll(posicionesFinales);
         });
 
         return CarmenDTO.builder()

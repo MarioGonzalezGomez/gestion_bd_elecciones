@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 @Service
@@ -64,6 +66,10 @@ public class ACsvExportService {
     }
 
     public void writeCarmenDTOToCsv(CarmenDTO cDTO, Writer writer) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        df.setDecimalFormatSymbols(dfs);
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
             csvPrinter.printRecord("Codigo", "Comunidad Autonoma", "Provincia", "Municipio", "Descripcion", "Escrutado", "Escanios",
                     "Avance 1", "Avance 2", "Avance 3", "Participacion", "Votantes",
@@ -78,15 +84,20 @@ public class ACsvExportService {
                     cDTO.getNumPartidos()
             );
 
-            csvPrinter.printRecord("Cod Partido", "Cod Padre", "Escanios_desde", "Escanios_hasta",
+            csvPrinter.printRecord("Cod Partido", "Cod Padre", "Escanios_Desde", "Escanios_Dasta",
                     "Escanios_historicos", "Porcentaje Voto",
-                    "Porcentaje historico", "Votantes", "Siglas", "Literal"
+                    "Porcentaje historico", "Votantes", "Siglas", "Literal", "Posicion Inicial Oficiales", "Apertura Arco Oficiales",
+                    "Posicion Inicial Desde Sondeo", "Apertura Arco Desde Sondeo", "Posicion Inicial Hasta Sondeo", "Apertura Arco Hasta Sondeo",
+                    "Escanios Desde Sondeo", "Escanios Hasta Sondeo", "Porcentaje Voto Sondeo"
             );
 
             for (CpDTO dto : cDTO.getCpDTO()) {
                 csvPrinter.printRecord(dto.getCodigoPartido(), dto.getCodigoPadre(), dto.getEscanos_desde(), dto.getEscanos_hasta(),
                         dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
-                        dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido()
+                        dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido(),
+                        df.format(dto.getPosicionInicial()), df.format(dto.getAperturaArco()), df.format(dto.getPosicionInicialDesdeSondeo()),
+                        df.format(dto.getAperturaArcoDesdeSondeo()), df.format(dto.getPosicionInicialHastaSondeo()), df.format(dto.getAperturaArcoHastaSondeo()),
+                        dto.getEscanos_desde_sondeo(), dto.getEscanos_hasta_sondeo(), dto.getPorcentajeVotoSondeo()
                 );
             }
         } catch (IOException e) {

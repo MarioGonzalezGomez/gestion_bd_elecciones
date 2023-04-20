@@ -23,7 +23,7 @@ public class CpDTO {
     private double aperturaArcoDesdeSondeo;
     private double posicionInicialHastaSondeo;
     private double aperturaArcoHastaSondeo;
-    private double escanos_desde_sondeo;
-    private double escanos_hasta_sondeo;
+    private int escanos_desde_sondeo;
+    private int escanos_hasta_sondeo;
     private double porcentajeVotoSondeo;
 }
