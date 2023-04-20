@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Mapper {
+public class CarmenDTOMapper {
     private final int gradosTotales = 180;
     private ArrayList<Double> posicionesIniciales;
     private ArrayList<Double> posicionesFinales;

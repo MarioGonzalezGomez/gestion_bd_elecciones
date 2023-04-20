@@ -2,7 +2,7 @@ package com.mggcode.gestion_bd_elecciones.controller.municipales;
 
 
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
-import com.mggcode.gestion_bd_elecciones.mapper.municipales.Mapper;
+import com.mggcode.gestion_bd_elecciones.mapper.municipales.CarmenDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;
@@ -61,7 +61,7 @@ public class CarmenDTOController {
         cp.forEach(x -> {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
-        Mapper mapper = new Mapper();
+        CarmenDTOMapper mapper = new CarmenDTOMapper();
         CarmenDTO dto = mapper.toDTO(circunscripcion, cp, partidos);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);

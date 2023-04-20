@@ -3,7 +3,7 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDtoList;
-import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.Mapper;
+import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.CarmenDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
@@ -62,7 +62,7 @@ public class ACarmenDTOController {
         cp.forEach(x -> {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
-        Mapper mapper = new Mapper();
+        CarmenDTOMapper mapper = new CarmenDTOMapper();
         CarmenDTO dto = mapper.toDTO(circunscripcion, cp, partidos);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -85,7 +85,7 @@ public class ACarmenDTOController {
         cp.forEach(x -> {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
-        Mapper mapper = new Mapper();
+        CarmenDTOMapper mapper = new CarmenDTOMapper();
         var dtoList = circunscripcionList.stream()
                 .filter(c -> c.getCodigo().endsWith("00000") && !c.getCodigo().startsWith("99"))
                 .map(c -> mapper.toDTO(c, cp, partidos)).toList();

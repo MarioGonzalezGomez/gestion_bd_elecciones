@@ -2,6 +2,7 @@ package com.mggcode.gestion_bd_elecciones.service.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CpDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.SedesDTO;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
@@ -125,6 +126,19 @@ public class AExcelExportService {
                 createCell(row, 16, "PARTICIPACIÓN HISTORICO", style);
                 createCell(row, 17, "PARTIDOS CON ESCANIO", style);
                 break;
+            case 5:
+                createCell(row, 0, "CODIGO", style);
+                createCell(row, 1, "CODIGO PADRE", style);
+                createCell(row, 2, "ESCANIOS DESDE", style);
+                createCell(row, 3, "ESCANIOS HASTA", style);
+                createCell(row, 4, "ESCANIOS HISTORICO", style);
+                createCell(row, 5, "PORCENTAJE VOTO", style);
+                createCell(row, 6, "PORCENTAJE HISTORICO", style);
+                createCell(row, 7, "VOTANTES", style);
+                createCell(row, 8, "SIGLAS", style);
+                createCell(row, 9, "LITERAL", style);
+                createCell(row, 10, "VOTANTES HISTORICOS", style);
+                break;
             default:
                 break;
         }
@@ -175,6 +189,10 @@ public class AExcelExportService {
             case 4:
                 List<CarmenDTO> carmenDTOS = (List<CarmenDTO>) listado;
                 createCarmenDTO(carmenDTOS.get(0), style);
+                break;
+            case 5:
+                List<SedesDTO> dtos = (List<SedesDTO>) listado;
+                createSedesDTO(dtos.get(0), style);
                 break;
             default:
                 break;
@@ -284,6 +302,22 @@ public class AExcelExportService {
             createCell(newRow, column++, y.getSiglas(), style);
             createCell(newRow, column++, y.getLiteralPartido(), style);
         });
+    }
+
+    private void createSedesDTO(SedesDTO x, CellStyle style) {
+        Row row = sheet.createRow(rowCount++);
+        int columnCount = 0;
+        createCell(row, columnCount++, x.getCodigoPartido(), style);
+        createCell(row, columnCount++, x.getCodigoPadre(), style);
+        createCell(row, columnCount++, x.getEscanos_desde(), style);
+        createCell(row, columnCount++, x.getEscanos_hasta(), style);
+        createCell(row, columnCount++, x.getEscanos_hist(), style);
+        createCell(row, columnCount++, x.getPorcentajeVoto(), style);
+        createCell(row, columnCount++, x.getPorcentajeVotoHistorico(), style);
+        createCell(row, columnCount++, x.getNumVotantes(), style);
+        createCell(row, columnCount++, x.getSiglas(), style);
+        createCell(row, columnCount++, x.getLiteralPartido(), style);
+        createCell(row, columnCount++, x.getNumVotantes_hist(), style);
     }
 
 

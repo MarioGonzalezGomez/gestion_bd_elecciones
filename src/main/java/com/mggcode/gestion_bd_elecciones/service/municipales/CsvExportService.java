@@ -1,5 +1,6 @@
 package com.mggcode.gestion_bd_elecciones.service.municipales;
 
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.SedesDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CpDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
@@ -100,6 +101,21 @@ public class CsvExportService {
                         dto.getEscanos_desde_sondeo(), dto.getEscanos_hasta_sondeo(), dto.getPorcentajeVotoSondeo()
                 );
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void writeSedesDTOToCsv(SedesDTO dto, Writer writer) {
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
+            csvPrinter.printRecord("Cod Partido", "Cod Padre", "Escanios_desde", "Escanios_hasta", "Escanios_historico",
+                    "Porcentaje Voto", "Porcentaje Voto Historico", "Votantes", "Siglas", "Literal", "Votantes historico"
+            );
+            csvPrinter.printRecord(dto.getCodigoPartido(), dto.getCodigoPadre(),
+                    dto.getEscanos_desde(), dto.getEscanos_hasta(), dto.getEscanos_hist(),
+                    dto.getPorcentajeVoto(), dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(),
+                    dto.getSiglas(), dto.getLiteralPartido(), dto.getNumVotantes_hist()
+            );
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
