@@ -17,23 +17,15 @@ public class ACircunscripcionService implements IBaseService<Circunscripcion> {
     @Autowired
     private ACircunscripcionRepository circunscripcionRepository;
 
-    @Autowired
-    private WebSocketConfig webSocketConfig;
 
-    private WebSocketHandler webSocketService = null;
 
     @Override
     public Circunscripcion create(Circunscripcion circunscripcion) {
-
-        var res = circunscripcionRepository.save(circunscripcion);
-        onChange("CREATE", circunscripcion);
-        return res;
+        return circunscripcionRepository.save(circunscripcion);
     }
 
     @Override
     public Circunscripcion update(Circunscripcion circunscripcion) {
-        var res = circunscripcionRepository.save(circunscripcion);
-        onChange("UPDATE", circunscripcion);
         return circunscripcionRepository.save(circunscripcion);
     }
 
@@ -53,11 +45,5 @@ public class ACircunscripcionService implements IBaseService<Circunscripcion> {
         circunscripcionRepository.deleteById(id);
     }
 
-    private void onChange(String type, Circunscripcion data) {
-        var message = type + ':' + data.getCodigo();
-        if(webSocketService == null)
-            webSocketService = webSocketConfig.autonomicasCircunscripcionesHandler();
-        System.out.println("Enviando cambio");
-        webSocketService.sendMessage(message);
-    }
+
 }
