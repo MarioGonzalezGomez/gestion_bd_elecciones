@@ -1,5 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.service.municipales;
 
+import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.SedesDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CpDTO;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
@@ -7,8 +9,10 @@ import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartid
 import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,6 +58,8 @@ public class ExcelExportService {
             case 2 -> nombrePagina = "Circunscripciones";
             case 3 -> nombrePagina = "Circunscripcion-Partido";
             case 4 -> nombrePagina = "CarmenDTO";
+            case 5 -> nombrePagina = "Sede";
+            case 6 -> nombrePagina = "Prime";
             default -> nombrePagina = "Pag1";
         }
     }
@@ -126,6 +132,19 @@ public class ExcelExportService {
                 createCell(row, 16, "PARTICIPACIÓN HISTORICO", style);
                 createCell(row, 17, "PARTIDOS CON ESCANIO", style);
                 break;
+            case 5:
+                createCell(row, 0, "CODIGO", style);
+                createCell(row, 1, "CODIGO PADRE", style);
+                createCell(row, 2, "ESCANIOS DESDE", style);
+                createCell(row, 3, "ESCANIOS HASTA", style);
+                createCell(row, 4, "ESCANIOS HISTORICO", style);
+                createCell(row, 5, "PORCENTAJE VOTO", style);
+                createCell(row, 6, "PORCENTAJE HISTORICO", style);
+                createCell(row, 7, "VOTANTES", style);
+                createCell(row, 8, "SIGLAS", style);
+                createCell(row, 9, "LITERAL", style);
+                createCell(row, 10, "VOTANTES HISTORICOS", style);
+                break;
             default:
                 break;
         }
@@ -176,6 +195,15 @@ public class ExcelExportService {
             case 4:
                 List<CarmenDTO> carmenDTOS = (List<CarmenDTO>) listado;
                 createCarmenDTO(carmenDTOS.get(0), style);
+                break;
+            case 5:
+                List<SedesDTO> sedesDTOS = (List<SedesDTO>) listado;
+                createSedesDTO(sedesDTOS.get(0), style);
+                break;
+            case 6:
+                List<com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO> primeDTOS = (List<com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO>) listado;
+                int numMax = primeDTOS.stream().max(Comparator.comparingInt(a -> a.getCps().size())).orElse(null).getCps().size();
+                primeDTOS.forEach(x -> createPrimeDTO(x, numMax, style));
                 break;
             default:
                 break;
@@ -283,6 +311,54 @@ public class ExcelExportService {
             createCell(newRow, column++, y.getNumVotantes(), style);
             createCell(newRow, column++, y.getSiglas(), style);
             createCell(newRow, column++, y.getLiteralPartido(), style);
+        });
+    }
+
+    private void createSedesDTO(SedesDTO x, CellStyle style) {
+        Row row = sheet.createRow(rowCount++);
+        int columnCount = 0;
+        createCell(row, columnCount++, x.getCodigoPartido(), style);
+        createCell(row, columnCount++, x.getCodigoPadre(), style);
+        createCell(row, columnCount++, x.getEscanos_desde(), style);
+        createCell(row, columnCount++, x.getEscanos_hasta(), style);
+        createCell(row, columnCount++, x.getEscanos_hist(), style);
+        createCell(row, columnCount++, x.getPorcentajeVoto(), style);
+        createCell(row, columnCount++, x.getPorcentajeVotoHistorico(), style);
+        createCell(row, columnCount++, x.getNumVotantes(), style);
+        createCell(row, columnCount++, x.getSiglas(), style);
+        createCell(row, columnCount++, x.getLiteralPartido(), style);
+        createCell(row, columnCount++, x.getNumVotantes_hist(), style);
+    }
+
+    private void createPrimeDTO(PrimeDTO x, int numMax, CellStyle style) {
+        if (rowCount == 1) {
+            Row row = sheet.createRow(0);
+            AtomicInteger columnCount = new AtomicInteger(4);
+            createCell(row, 0, "CIRCUNSCRIPCION", style);
+            createCell(row, 1, "CODIGO CIRCUNSCRIPCION", style);
+            createCell(row, 2, "ESCANIOS TOTALES", style);
+            createCell(row, 3, "ESCRUTADO", style);
+            for (int i = 0; i < numMax; i++) {
+                createCell(row, columnCount.getAndIncrement(), "CODIGOS PARTIDO " + (i + 1), style);
+                createCell(row, columnCount.getAndIncrement(), "ESCANIOS " + (i + 1), style);
+                createCell(row, columnCount.getAndIncrement(), "ESCANIOS HISTORICOS " + (i + 1), style);
+                createCell(row, columnCount.getAndIncrement(), "COLORES " + (i + 1), style);
+            }
+        }
+
+        Row newrow = sheet.createRow(rowCount++);
+        AtomicInteger column = new AtomicInteger();
+
+        createCell(newrow, column.getAndIncrement(), x.getNombreCircunscripcion(), style);
+        createCell(newrow, column.getAndIncrement(), x.getCodigoCircunscripcion(), style);
+        createCell(newrow, column.getAndIncrement(), x.getEscaniosTotales(), style);
+        createCell(newrow, column.getAndIncrement(), x.getEscrutado(), style);
+
+        x.getCps().forEach(cp -> {
+            createCell(newrow, column.getAndIncrement(), cp.getCodigoPartido(), style);
+            createCell(newrow, column.getAndIncrement(), cp.getEscanios(), style);
+            createCell(newrow, column.getAndIncrement(), cp.getEscaniosHistorico(), style);
+            createCell(newrow, column.getAndIncrement(), cp.getColor(), style);
         });
     }
 

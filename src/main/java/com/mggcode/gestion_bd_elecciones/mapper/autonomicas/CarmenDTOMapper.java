@@ -73,7 +73,9 @@ public class CarmenDTOMapper {
         double sumatorioHastaSondeo = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_hasta_sondeo).sum();
 
         sumatorios.add(sumatorioHasta);
-        sumatorios.add(sumatorioDesdeSondeo);
+        //Se añade una segunda vez, ya que la apertura de los "Desde" tomará también como total el sumatorio de los hasta
+        sumatorios.add(sumatorioHasta);
+        //sumatorios.add(sumatorioDesdeSondeo);
         sumatorios.add(sumatorioHastaSondeo);
 
         return sumatorios;
