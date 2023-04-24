@@ -5,6 +5,8 @@ import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartid
 import java.util.Comparator;
 
 public class CircunscripcionPartidoSondeo implements Comparator<CircunscripcionPartido> {
+    //TODO(Desde, hasta sondeo)
+    //TODO(
     @Override
     public int compare(CircunscripcionPartido o1, CircunscripcionPartido o2) {
         int comp = Integer.compare(o1.getEscanos_hasta_sondeo(), o2.getEscanos_hasta_sondeo());

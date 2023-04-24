@@ -43,7 +43,7 @@ public class APrimeDTOController {
         List<Partido> partidos = parCon.findAll();
 
         circunscripciones.forEach(cir -> {
-            List<CircunscripcionPartido> cps = cpCon.findByIdCircunscripcion(cir.getCodigo());
+            List<CircunscripcionPartido> cps = cpCon.findByIdCircunscripcionOficial(cir.getCodigo());
             PrimeDTO dto = mapper.toDTO(cir, cps, partidos);
             listado.add(dto);
         });

@@ -44,12 +44,37 @@ public class ACarmenDTOController {
 
     //Este DTO trae los partidos de una circunscripción dada por código
     // ordenados del modo en que Carmen necesita para sus gráficos
-    @GetMapping("/{codigo}")
+    @GetMapping("/oficial/{codigo}")
+    public ResponseEntity<CarmenDTO> getCarmenDTOOficial(@PathVariable("codigo") String cod1) {
+
+        Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
+
+        List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionOficial(cod1).stream()
+                //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
+                //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
+                //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
+                //.filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
+                .filter(x -> x.getEscanos_hasta() > 0.0)
+                //.sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .collect(Collectors.toList());
+
+        List<Partido> partidos = new ArrayList<>();
+        cp.forEach(x -> {
+            partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
+        });
+        CarmenDTOMapper mapper = new CarmenDTOMapper();
+        CarmenDTO dto = mapper.toDTO(circunscripcion, cp, partidos);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/sondeo/{codigo}")
     public ResponseEntity<CarmenDTO> getCarmenDTO(@PathVariable("codigo") String cod1) {
 
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
 
-        List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcion(cod1).stream()
+        List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
                 //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
                 //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))

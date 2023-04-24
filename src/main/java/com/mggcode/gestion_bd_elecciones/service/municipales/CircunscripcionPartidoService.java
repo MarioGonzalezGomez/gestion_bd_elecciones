@@ -1,7 +1,8 @@
 package com.mggcode.gestion_bd_elecciones.service.municipales;
 
 
-import com.mggcode.gestion_bd_elecciones.logic.municipales.CircunscripcionPartidoComparador;
+import com.mggcode.gestion_bd_elecciones.logic.municipales.CircunscripcionPartidoOficial;
+import com.mggcode.gestion_bd_elecciones.logic.municipales.CircunscripcionPartidoSondeo;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 
 import com.mggcode.gestion_bd_elecciones.model.municipales.Key;
@@ -36,11 +37,16 @@ public class CircunscripcionPartidoService {
         return CircunscripcionPartidoOptional.orElse(null);
     }
 
-    public List<CircunscripcionPartido> findByIdCircunscripcion(String codCircunscripcion) {
-        List<CircunscripcionPartido> lista = circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
+    public List<CircunscripcionPartido> findByIdCircunscripcionOficial(String codCircunscripcion) {
+        return circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
                 .stream().filter(x -> x.getEscanos_hasta() > 0)
-                .sorted(new CircunscripcionPartidoComparador().reversed()).collect(Collectors.toList());
-        return lista;
+                .sorted(new CircunscripcionPartidoOficial().reversed()).collect(Collectors.toList());
+    }
+
+    public List<CircunscripcionPartido> findByIdCircunscripcionSondeo(String codCircunscripcion) {
+        return circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
+                .stream().filter(x -> x.getEscanos_hasta() > 0)
+                .sorted(new CircunscripcionPartidoSondeo().reversed()).collect(Collectors.toList());
     }
 
     public List<CircunscripcionPartido> findByIdPartido(String codPartido) {

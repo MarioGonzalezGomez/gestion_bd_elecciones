@@ -189,7 +189,7 @@ public class ACircunscripcionPartidoController {
     //Devuelve todos los partidos de una circunscripción dada
     @GetMapping("/circunscripcion/{codigo}")
     public ResponseEntity<List<CircunscripcionPartido>> findByIdCircunscripcion(@PathVariable("codigo") String cod1) {
-        return new ResponseEntity<>(circunscripcionPartidoService.findByIdCircunscripcion(cod1), HttpStatus.OK);
+        return new ResponseEntity<>(circunscripcionPartidoService.findByIdCircunscripcionOficial(cod1), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/circunscripcion/{codigo}/csv")
