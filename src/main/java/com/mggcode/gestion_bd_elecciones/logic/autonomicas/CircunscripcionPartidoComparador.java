@@ -15,10 +15,16 @@ public class CircunscripcionPartidoComparador implements Comparator<Circunscripc
             comp = Double.compare(o1.getPorcentajeVoto(), o2.getPorcentajeVoto());
             if (comp == 0) {
                 comp = Integer.compare(o1.getNumVotantes(), o2.getNumVotantes());
-            }
-        }else if (Integer.compare(o1.getEscanos_hasta_sondeo(), o2.getEscanos_hasta_sondeo()) == 0){
-            if(Integer.compare(o1.getEscanos_desde_sondeo(), o2.getEscanos_desde_sondeo()) == 0){
-                return Double.compare(o1.getPorcentajeVotoSondeo(), o2.getPorcentajeVotoSondeo());
+                if(comp == 0){
+                    comp = Integer.compare(o1.getEscanos_hasta_sondeo(), o2.getEscanos_hasta_sondeo());
+                    if(comp == 0){
+                        comp = Integer.compare(o1.getEscanos_desde_sondeo(), o2.getEscanos_desde_sondeo());
+                        if(comp == 0){
+                            comp = Double.compare(o1.getPorcentajeVotoSondeo(), o2.getPorcentajeVotoSondeo());
+                        }
+                    }
+
+                }
             }
         }
         return comp;
