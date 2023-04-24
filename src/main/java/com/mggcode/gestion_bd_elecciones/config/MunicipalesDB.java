@@ -55,14 +55,9 @@ public class MunicipalesDB {
 
     @Bean
     @Primary
-    @ConfigurationProperties(prefix="municipales.datasource")
+    @ConfigurationProperties(prefix = "municipales.datasource")
     public DataSource municipalesPrimaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean
-    @ConfigurationProperties(prefix="municipales.seconddatasource")
-    public DataSource municipalesSecondaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
 }

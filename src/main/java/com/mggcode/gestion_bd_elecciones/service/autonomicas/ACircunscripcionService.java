@@ -1,8 +1,5 @@
 package com.mggcode.gestion_bd_elecciones.service.autonomicas;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.mggcode.gestion_bd_elecciones.config.WebSocketConfig;
-import com.mggcode.gestion_bd_elecciones.config.WebSocketHandler;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.repository.autonomicas.ACircunscripcionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

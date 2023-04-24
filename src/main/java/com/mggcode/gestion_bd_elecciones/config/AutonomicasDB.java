@@ -61,9 +61,5 @@ public class AutonomicasDB {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean
-    @ConfigurationProperties(prefix="autonomicas.seconddatasource")
-    public DataSource secondaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
+
 }
