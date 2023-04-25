@@ -1,7 +1,8 @@
 package com.mggcode.gestion_bd_elecciones.service.autonomicas;
 
 
-import com.mggcode.gestion_bd_elecciones.logic.autonomicas.CircunscripcionPartidoComparador;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.CircunscripcionPartidoOficial;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.CircunscripcionPartidoSondeo;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Key;
 import com.mggcode.gestion_bd_elecciones.repository.autonomicas.ACircunscripcionPartidoRepository;
@@ -33,10 +34,17 @@ public class ACircunscripcionPartidoService {
         return CircunscripcionPartidoOptional.orElse(null);
     }
 
-    public List<CircunscripcionPartido> findByIdCircunscripcion(String codCircunscripcion) {
+    public List<CircunscripcionPartido> findByIdCircunscripcionOficial(String codCircunscripcion) {
         List<CircunscripcionPartido> lista = circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
                 .stream().filter(x -> x.getEscanos_hasta() > 0)
-                .sorted(new CircunscripcionPartidoComparador().reversed()).collect(Collectors.toList());
+                .sorted(new CircunscripcionPartidoOficial().reversed()).collect(Collectors.toList());
+        return lista;
+    }
+
+    public List<CircunscripcionPartido> findByIdCircunscripcionSondeo(String codCircunscripcion) {
+        List<CircunscripcionPartido> lista = circunscripcionPartidoRepository.findByKey_Circunscripcion(codCircunscripcion)
+                .stream().filter(x -> x.getEscanos_hasta() > 0)
+                .sorted(new CircunscripcionPartidoSondeo().reversed()).collect(Collectors.toList());
         return lista;
     }
 

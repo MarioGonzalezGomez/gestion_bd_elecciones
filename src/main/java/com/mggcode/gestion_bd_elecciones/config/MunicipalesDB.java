@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -50,6 +51,13 @@ public class MunicipalesDB {
     @Bean(name = "municipalesTransactionManager")
     public PlatformTransactionManager platformTransactionManager(@Qualifier("municipalesEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
+    }
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(prefix = "municipales.datasource")
+    public DataSource municipalesPrimaryDataSource() {
+        return DataSourceBuilder.create().build();
     }
 
 }

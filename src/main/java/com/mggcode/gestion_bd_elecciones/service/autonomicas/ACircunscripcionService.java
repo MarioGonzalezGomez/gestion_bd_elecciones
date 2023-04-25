@@ -14,6 +14,8 @@ public class ACircunscripcionService implements IBaseService<Circunscripcion> {
     @Autowired
     private ACircunscripcionRepository circunscripcionRepository;
 
+
+
     @Override
     public Circunscripcion create(Circunscripcion circunscripcion) {
         return circunscripcionRepository.save(circunscripcion);
@@ -39,4 +41,6 @@ public class ACircunscripcionService implements IBaseService<Circunscripcion> {
     public void delete(String id) {
         circunscripcionRepository.deleteById(id);
     }
+
+
 }

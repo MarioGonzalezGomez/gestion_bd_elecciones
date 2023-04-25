@@ -4,7 +4,7 @@ import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartid
 
 import java.util.Comparator;
 
-public class CircunscripcionPartidoComparador implements Comparator<CircunscripcionPartido> {
+public class CircunscripcionPartidoOficial implements Comparator<CircunscripcionPartido> {
     @Override
     public int compare(CircunscripcionPartido o1, CircunscripcionPartido o2) {
         var comp = Integer.compare(o1.getEscanos_hasta(), o2.getEscanos_hasta());
