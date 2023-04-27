@@ -121,7 +121,7 @@ public class ACarmenDTOController {
     @RequestMapping(path = "/{codigo}/csv")
     public void getCarmenDTOInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
-        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=F_" + cod1 + ".csv\"");
+        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=F_" + cod1 + ".csv");
         CarmenDTO dto = getCarmenDTO(cod1).getBody();
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
     }
