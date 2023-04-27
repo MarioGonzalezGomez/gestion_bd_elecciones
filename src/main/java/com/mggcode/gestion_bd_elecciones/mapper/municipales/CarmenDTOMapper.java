@@ -74,7 +74,7 @@ public class CarmenDTOMapper {
 
         sumatorios.add(sumatorioHasta);
         //Se añade una segunda vez, ya que la apertura de los "Desde" tomará también como total el sumatorio de los hasta
-        sumatorios.add(sumatorioHasta);
+        sumatorios.add(sumatorioHastaSondeo);
         //sumatorios.add(sumatorioDesdeSondeo);
         sumatorios.add(sumatorioHastaSondeo);
 
