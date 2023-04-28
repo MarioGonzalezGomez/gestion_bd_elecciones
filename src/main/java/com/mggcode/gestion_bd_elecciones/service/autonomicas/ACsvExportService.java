@@ -103,13 +103,22 @@ public class ACsvExportService {
                 } else {
                     tendencia = "+";
                 }
-                csvPrinter.printRecord(dto.getCodigoPartido(), dto.getCodigoPadre(), dto.getEscanos_desde(), dto.getEscanos_hasta(),
-                        dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
-                        dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido(),
-                        df.format(dto.getPosicionInicial()), df.format(dto.getAperturaArco()), df.format(dto.getPosicionInicialDesdeSondeo()),
-                        df.format(dto.getAperturaArcoDesdeSondeo()), df.format(dto.getPosicionInicialHastaSondeo()), df.format(dto.getAperturaArcoHastaSondeo()),
-                        dto.getEscanos_desde_sondeo(), dto.getEscanos_hasta_sondeo(), dto.getPorcentajeVotoSondeo(), String.valueOf(diferencia), tendencia
-                );
+                if (diferencia != 0) {
+                    csvPrinter.printRecord(dto.getCodigoPartido(), dto.getCodigoPadre(), dto.getEscanos_desde(), dto.getEscanos_hasta(),
+                            dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
+                            dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido(),
+                            df.format(dto.getPosicionInicial()), df.format(dto.getAperturaArco()), df.format(dto.getPosicionInicialDesdeSondeo()),
+                            df.format(dto.getAperturaArcoDesdeSondeo()), df.format(dto.getPosicionInicialHastaSondeo()), df.format(dto.getAperturaArcoHastaSondeo()),
+                            dto.getEscanos_desde_sondeo(), dto.getEscanos_hasta_sondeo(), dto.getPorcentajeVotoSondeo(), String.valueOf(diferencia), tendencia
+                    );
+                } else {
+                    csvPrinter.printRecord(dto.getCodigoPartido(), dto.getCodigoPadre(), dto.getEscanos_desde(), dto.getEscanos_hasta(),
+                            dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
+                            dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido(),
+                            df.format(dto.getPosicionInicial()), df.format(dto.getAperturaArco()), df.format(dto.getPosicionInicialDesdeSondeo()),
+                            df.format(dto.getAperturaArcoDesdeSondeo()), df.format(dto.getPosicionInicialHastaSondeo()), df.format(dto.getAperturaArcoHastaSondeo()),
+                            dto.getEscanos_desde_sondeo(), dto.getEscanos_hasta_sondeo(), dto.getPorcentajeVotoSondeo(), "", tendencia);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
