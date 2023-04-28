@@ -130,6 +130,7 @@ public class AExcelExportService {
                 createCell(row, 15, "AVANCE 3 HISTORICO", style);
                 createCell(row, 16, "PARTICIPACIÓN HISTORICO", style);
                 createCell(row, 17, "PARTIDOS CON ESCANIO", style);
+                createCell(row, 18, "TIPO ELECCIONES", style);
                 break;
             case 5:
                 createCell(row, 0, "CODIGO", style);
@@ -262,8 +263,10 @@ public class AExcelExportService {
 
     }
 
+    //TODO:obtener desde la parte gráfica el dato sobre el tipo de elecciones
     private void createCarmenDTO(CarmenDTO x, CellStyle style) {
         Row row = sheet.createRow(rowCount++);
+        String tipoElecciones = "Autonómicas";
         int columnCount = 0;
         createCell(row, columnCount++, x.getCircunscripcion().getCodigo(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getCodigoComunidad(), style);
@@ -283,6 +286,7 @@ public class AExcelExportService {
         createCell(row, columnCount++, x.getCircunscripcion().getAvance3Hist(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getParticipacionHist(), style);
         createCell(row, columnCount++, x.getNumPartidos(), style);
+        createCell(row, columnCount++, tipoElecciones, style);
 
 
         row = sheet.createRow(rowCount++);
@@ -297,9 +301,22 @@ public class AExcelExportService {
         createCell(row, 7, "VOTANTES", style);
         createCell(row, 8, "SIGLAS", style);
         createCell(row, 9, "LITERAL", style);
+        createCell(row, 10, "DIFERENCIA ESCANIOS", style);
+        createCell(row, 11, "TENDENCIA", style);
+
 
         List<CpDTO> cpdtos = x.getCpDTO();
         cpdtos.forEach(y -> {
+            int diferencia = y.getEscanos_hasta() - y.getEscanos_hasta_hist();
+            String tendencia;
+            if (diferencia < 0) {
+                diferencia = diferencia * (-1);
+                tendencia = "-";
+            } else if (diferencia == 0) {
+                tendencia = "=";
+            } else {
+                tendencia = "+";
+            }
             Row newRow = sheet.createRow(rowCount++);
             int column = 0;
             createCell(newRow, column++, y.getCodigoPartido(), style);
@@ -312,6 +329,8 @@ public class AExcelExportService {
             createCell(newRow, column++, y.getNumVotantes(), style);
             createCell(newRow, column++, y.getSiglas(), style);
             createCell(newRow, column++, y.getLiteralPartido(), style);
+            createCell(newRow, column++, String.valueOf(diferencia), style);
+            createCell(newRow, column++, tendencia, style);
         });
     }
 

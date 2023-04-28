@@ -75,36 +75,47 @@ public class CsvExportService {
             csvPrinter.printRecord("Codigo", "Comunidad Autonoma", "Provincia", "Municipio", "Descripcion", "Escrutado", "Escanios",
                     "Avance 1", "Avance 2", "Avance 3", "Participacion", "Votantes",
                     "Escanios Historicos", "Avance 1 Historico", "Avance 2 Historico", "Avance 3 Historico", "Participacion Historica",
-                    "Numero de partidos"
+                    "Numero de partidos", "Tipo de elecciones"
             );
             Circunscripcion cir = cDTO.getCircunscripcion();
             csvPrinter.printRecord(cir.getCodigo(), cir.getCodigoComunidad(), cir.getCodigoProvincia(), cir.getCodigoMunicipio(),
                     cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(),
                     cir.getAvance1(), cir.getAvance2(), cir.getAvance3(), cir.getParticipacion(), cir.getVotantes(),
                     cir.getEscaniosHistoricos(), cir.getAvance1Hist(), cir.getAvance2Hist(), cir.getAvance3Hist(), cir.getParticipacionHist(),
-                    cDTO.getNumPartidos()
+                    cDTO.getNumPartidos(), "Municipales"
             );
 
             csvPrinter.printRecord("Cod Partido", "Cod Padre", "Escanios_Desde", "Escanios_Dasta",
                     "Escanios_historicos", "Porcentaje Voto", "Porcentaje historico", "Votantes", "Siglas", "Literal",
                     "Posicion Inicial Oficiales", "Apertura Arco Oficiales", "Posicion Inicial Desde Sondeo",
                     "Apertura Arco Desde Sondeo", "Posicion Inicial Hasta Sondeo", "Apertura Arco Hasta Sondeo",
-                    "Escanios Desde Sondeo", "Escanios Hasta Sondeo", "Porcentaje Voto Sondeo"
+                    "Escanios Desde Sondeo", "Escanios Hasta Sondeo", "Porcentaje Voto Sondeo", "Diferencia de escanios", "Tendencia"
             );
 
             for (CpDTO dto : cDTO.getCpDTO()) {
+                int diferencia = dto.getEscanos_hasta() - dto.getEscanos_hasta_hist();
+                String tendencia;
+                if (diferencia < 0) {
+                    diferencia = diferencia * (-1);
+                    tendencia = "-";
+                } else if (diferencia == 0) {
+                    tendencia = "=";
+                } else {
+                    tendencia = "+";
+                }
                 csvPrinter.printRecord(dto.getCodigoPartido(), dto.getCodigoPadre(), dto.getEscanos_desde(), dto.getEscanos_hasta(),
                         dto.getEscanos_hasta_hist(), dto.getPorcentajeVoto(),
                         dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(), dto.getSiglas(), dto.getLiteralPartido(),
                         df.format(dto.getPosicionInicial()), df.format(dto.getAperturaArco()), df.format(dto.getPosicionInicialDesdeSondeo()),
                         df.format(dto.getAperturaArcoDesdeSondeo()), df.format(dto.getPosicionInicialHastaSondeo()), df.format(dto.getAperturaArcoHastaSondeo()),
-                        dto.getEscanos_desde_sondeo(), dto.getEscanos_hasta_sondeo(), dto.getPorcentajeVotoSondeo()
+                        dto.getEscanos_desde_sondeo(), dto.getEscanos_hasta_sondeo(), dto.getPorcentajeVotoSondeo(), String.valueOf(diferencia), tendencia
                 );
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void writeSedesDTOToCsv(SedesDTO dto, Writer writer) {
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
             csvPrinter.printRecord("Cod Partido", "Cod Padre", "Escanios_desde", "Escanios_hasta", "Escanios_historico",
