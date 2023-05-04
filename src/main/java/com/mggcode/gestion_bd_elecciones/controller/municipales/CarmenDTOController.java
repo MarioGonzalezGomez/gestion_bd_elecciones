@@ -47,7 +47,7 @@ public class CarmenDTOController {
     public ResponseEntity<CarmenDTO> getCarmenDTOOficial(@PathVariable("codigo") String cod1) {
 
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
-
+        Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionOficial(cod1).stream()
                 //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
@@ -62,7 +62,7 @@ public class CarmenDTOController {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
         CarmenDTOMapper mapper = new CarmenDTOMapper();
-        CarmenDTO dto = mapper.toDTO(circunscripcion, cp, partidos);
+        CarmenDTO dto = mapper.toDTO(circunscripcion,espania, cp, partidos);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -71,7 +71,7 @@ public class CarmenDTOController {
     public ResponseEntity<CarmenDTO> getCarmenDTOSondeo(@PathVariable("codigo") String cod1) {
 
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
-
+        Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
                 //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
@@ -86,7 +86,7 @@ public class CarmenDTOController {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
         CarmenDTOMapper mapper = new CarmenDTOMapper();
-        CarmenDTO dto = mapper.toDTO(circunscripcion, cp, partidos);
+        CarmenDTO dto = mapper.toDTO(circunscripcion,espania, cp, partidos);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

@@ -3,18 +3,11 @@ package com.mggcode.gestion_bd_elecciones.mapper.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CircunscripcionDTO;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
-import com.mggcode.gestion_bd_elecciones.service.autonomicas.ACircunscripcionService;
+
 
 public class CircunscripcionDTOMapper {
 
-    private final ACircunscripcionService serv;
-
-    public CircunscripcionDTOMapper() {
-        serv = new ACircunscripcionService();
-    }
-
-    public CircunscripcionDTO toDTO(Circunscripcion c, String literalParticipacion, String anioUltimas) {
-        Circunscripcion espania = serv.findById("9900000");
+    public CircunscripcionDTO toDTO(Circunscripcion c, Circunscripcion espania, String literalParticipacion, String anioUltimas) {
         double participacion;
         double participacionHistorica;
         double participacionMedia;
