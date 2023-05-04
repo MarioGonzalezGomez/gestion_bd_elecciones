@@ -1,6 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.mapper.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CircunscripcionDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CpDTO;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
@@ -8,6 +9,7 @@ import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class CarmenDTOMapper {
@@ -17,6 +19,8 @@ public class CarmenDTOMapper {
     private ArrayList<Double> sumatorios;
 
     public CarmenDTO toDTO(Circunscripcion c, List<CircunscripcionPartido> cp, List<Partido> p) {
+        CircunscripcionDTOMapper mapper = new CircunscripcionDTOMapper();
+        CircunscripcionDTO cdto = mapper.toDTO(c, "Participacion", getAnio(c.getCodigoComunidad()));
         posicionesIniciales = new ArrayList<>();
         posicionesIniciales.add(0.0);
         posicionesIniciales.add(0.0);
@@ -58,10 +62,20 @@ public class CarmenDTOMapper {
         });
 
         return CarmenDTO.builder()
-                .circunscripcion(c)
+                .circunscripcion(cdto)
                 .numPartidos(cp.size())
                 .cpDTO(cpDTO)
                 .build();
+    }
+
+    private String getAnio(String codigoAutonomia) {
+        String anio;
+        if (Objects.equals(codigoAutonomia, "12"))
+            anio = "2021";
+        else
+            anio = "2019";
+        return anio;
+
     }
 
     private ArrayList<Double> getSumatorios(List<CircunscripcionPartido> cps) {
@@ -69,7 +83,7 @@ public class CarmenDTOMapper {
 
         double sumatorioHasta = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_hasta).sum();
 
-       // double sumatorioDesdeSondeo = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_desde_sondeo).sum();
+        // double sumatorioDesdeSondeo = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_desde_sondeo).sum();
         double sumatorioHastaSondeo = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_hasta_sondeo).sum();
 
         sumatorios.add(sumatorioHasta);
