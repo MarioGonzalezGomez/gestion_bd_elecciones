@@ -11,6 +11,7 @@ import com.mggcode.gestion_bd_elecciones.service.autonomicas.ACircunscripcionPar
 import com.mggcode.gestion_bd_elecciones.service.autonomicas.ACsvExportService;
 import com.mggcode.gestion_bd_elecciones.service.autonomicas.AExcelExportService;
 import jakarta.servlet.http.HttpServletResponse;
+import jdk.jshell.Snippet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -135,5 +136,11 @@ public class ACarmenDTOController {
         listado.add(dto);
         AExcelExportService excelExportService = new AExcelExportService();
         excelExportService.writeToExcel((RandomAccess) listado, 4, servletResponse);
+    }
+
+    @RequestMapping(path = "{codigo}")
+    public ResponseEntity<CarmenDTO> getCarmenDto(@PathVariable("codigo") String cod1){
+        CarmenDTO res = getCarmenDTO(cod1).getBody();
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
