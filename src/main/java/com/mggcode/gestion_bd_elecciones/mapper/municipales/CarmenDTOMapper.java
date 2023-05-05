@@ -1,7 +1,8 @@
 package com.mggcode.gestion_bd_elecciones.mapper.municipales;
 
-import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.CircunscripcionDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CpDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;
@@ -9,16 +10,18 @@ import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class CarmenDTOMapper {
-
     private final int gradosTotales = 180;
     private ArrayList<Double> posicionesIniciales;
     private ArrayList<Double> posicionesFinales;
     private ArrayList<Double> sumatorios;
 
-    public CarmenDTO toDTO(Circunscripcion c, List<CircunscripcionPartido> cp, List<Partido> p) {
+    public CarmenDTO toDTO(Circunscripcion c, Circunscripcion espania, List<CircunscripcionPartido> cp, List<Partido> p) {
+        CircunscripcionDTOMapper mapper = new CircunscripcionDTOMapper();
+        CircunscripcionDTO cdto = mapper.toDTO(c, espania, "Participación", getAnio(c.getCodigoComunidad()));
         posicionesIniciales = new ArrayList<>();
         posicionesIniciales.add(0.0);
         posicionesIniciales.add(0.0);
@@ -60,10 +63,20 @@ public class CarmenDTOMapper {
         });
 
         return CarmenDTO.builder()
-                .circunscripcion(c)
+                .circunscripcion(cdto)
                 .numPartidos(cp.size())
                 .cpDTO(cpDTO)
                 .build();
+    }
+
+    private String getAnio(String codigoAutonomia) {
+        String anio;
+        if (Objects.equals(codigoAutonomia, "12"))
+            anio = "2021";
+        else
+            anio = "2019";
+        return anio;
+
     }
 
     private ArrayList<Double> getSumatorios(List<CircunscripcionPartido> cps) {

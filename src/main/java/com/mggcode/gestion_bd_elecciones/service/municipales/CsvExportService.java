@@ -1,5 +1,6 @@
 package com.mggcode.gestion_bd_elecciones.service.municipales;
 
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.CircunscripcionDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.SedesDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CpDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
@@ -73,15 +74,15 @@ public class CsvExportService {
         df.setDecimalFormatSymbols(dfs);
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
             csvPrinter.printRecord("Codigo", "Comunidad Autonoma", "Provincia", "Municipio", "Descripcion", "Escrutado", "Escanios",
-                    "Avance 1", "Avance 2", "Avance 3", "Participacion", "Votantes",
-                    "Escanios Historicos", "Avance 1 Historico", "Avance 2 Historico", "Avance 3 Historico", "Participacion Historica",
+                    "Participacion", "Participacion Historica", "Media de participacion", "Literal participacion", "Votantes",
+                    "Escanios Historicos", "Anio ultimas elecciones", "Sin uso", "Sin uso", "Sin uso",
                     "Numero de partidos", "Tipo de elecciones"
             );
-            Circunscripcion cir = cDTO.getCircunscripcion();
+            CircunscripcionDTO cir = cDTO.getCircunscripcion();
             csvPrinter.printRecord(cir.getCodigo(), cir.getCodigoComunidad(), cir.getCodigoProvincia(), cir.getCodigoMunicipio(),
                     cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(),
-                    cir.getAvance1(), cir.getAvance2(), cir.getAvance3(), cir.getParticipacion(), cir.getVotantes(),
-                    cir.getEscaniosHistoricos(), cir.getAvance1Hist(), cir.getAvance2Hist(), cir.getAvance3Hist(), cir.getParticipacionHist(),
+                    cir.getParticipacion(), cir.getParticipacionHistorico(), cir.getParticipacionMedia(), cir.getLiteralParticipacion(), cir.getVotantes(),
+                    cir.getEscaniosHistoricos(), cir.getAnioUltimosDatos(), cir.getAvance2Hist(), cir.getAvance3Hist(), cir.getParticipacionHist(),
                     cDTO.getNumPartidos(), "Municipales"
             );
 

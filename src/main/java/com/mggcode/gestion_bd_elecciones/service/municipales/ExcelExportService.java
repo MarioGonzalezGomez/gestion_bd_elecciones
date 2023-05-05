@@ -1,6 +1,6 @@
 package com.mggcode.gestion_bd_elecciones.service.municipales;
 
-import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.PrimeDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.SedesDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CpDTO;
@@ -120,16 +120,16 @@ public class ExcelExportService {
                 createCell(row, 4, "NOMBRE", style);
                 createCell(row, 5, "ESCRUTADO ACTUAL", style);
                 createCell(row, 6, "ESCANIOS TOTALES", style);
-                createCell(row, 7, "AVANCE 1", style);
-                createCell(row, 8, "AVANCE 2", style);
-                createCell(row, 9, "AVANCE 3", style);
-                createCell(row, 10, "PARTICIPACIÓN", style);
+                createCell(row, 7, "PARTICIPACION", style);
+                createCell(row, 8, "PARTICIPACION HISTORICA", style);
+                createCell(row, 9, "PARTICIPACION MEDIA", style);
+                createCell(row, 10, "LITERAL PARTICIPACION", style);
                 createCell(row, 11, "VOTANTES", style);
                 createCell(row, 12, "ESCANIOS HISTORICO", style);
-                createCell(row, 13, "AVANCE 1 HISTORICO", style);
-                createCell(row, 14, "AVANCE 2 HISTORICO", style);
-                createCell(row, 15, "AVANCE 3 HISTORICO", style);
-                createCell(row, 16, "PARTICIPACIÓN HISTORICO", style);
+                createCell(row, 13, "ANIO ULTIMAS ELECCIONES", style);
+                createCell(row, 14, "SIN USO", style);
+                createCell(row, 15, "SIN USO", style);
+                createCell(row, 16, "SIN USO", style);
                 createCell(row, 17, "PARTIDOS CON ESCANIO", style);
                 createCell(row, 18, "TIPO ELECCIONES", style);
                 break;
@@ -202,7 +202,7 @@ public class ExcelExportService {
                 createSedesDTO(sedesDTOS.get(0), style);
                 break;
             case 6:
-                List<com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO> primeDTOS = (List<com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO>) listado;
+                List<PrimeDTO> primeDTOS = (List<PrimeDTO>) listado;
                 int numMax = primeDTOS.stream().max(Comparator.comparingInt(a -> a.getCps().size())).orElse(null).getCps().size();
                 primeDTOS.forEach(x -> createPrimeDTO(x, numMax, style));
                 break;
@@ -274,13 +274,13 @@ public class ExcelExportService {
         createCell(row, columnCount++, x.getCircunscripcion().getNombreCircunscripcion(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getEscrutado(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getEscanios(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getAvance1(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getAvance2(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getAvance3(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getParticipacion(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getParticipacionHistorico(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getParticipacionMedia(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getLiteralParticipacion(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getVotantes(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getEscaniosHistoricos(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getAvance1Hist(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAnioUltimosDatos(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getAvance2Hist(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getAvance3Hist(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getParticipacionHist(), style);
