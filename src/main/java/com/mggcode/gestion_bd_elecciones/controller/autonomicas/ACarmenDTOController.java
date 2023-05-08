@@ -159,7 +159,7 @@ public class ACarmenDTOController {
 
     @RequestMapping(path = "{codigo}")
     public ResponseEntity<CarmenDTO> getCarmenDto(@PathVariable("codigo") String cod1){
-        CarmenDTO res = getCarmenDTO(cod1).getBody();
+        CarmenDTO res = getCarmenDTOOficial(cod1).getBody();
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 }
