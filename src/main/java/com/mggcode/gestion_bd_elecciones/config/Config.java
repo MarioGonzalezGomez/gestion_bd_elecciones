@@ -1,6 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.config;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
@@ -20,8 +21,8 @@ public class Config {
     }
 
     public void loadConfig() {
-        try {
-            config.load(new FileInputStream("src/main/resources/config.properties"));
+        try(InputStream in = getClass().getResourceAsStream("/config.properties")) {
+            config.load(in);
         } catch (Exception e) {
             System.out.println("Error cargando configuración");
         }
