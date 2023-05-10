@@ -8,9 +8,9 @@ import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 public class CircunscripcionDTOMapper {
 
     public CircunscripcionDTO toDTO(Circunscripcion c, Circunscripcion espania, String literalParticipacion, String anioUltimas) {
-        double participacion;
-        double participacionHistorica;
-        double participacionMedia;
+        double participacion = 0.0;
+        double participacionHistorica = 0.0;
+        double participacionMedia = 0.0;
         String literal = literalParticipacion;
 
         if (c.getParticipacion() != 0) {
