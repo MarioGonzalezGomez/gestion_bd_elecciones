@@ -80,12 +80,9 @@ public class CarmenDTOMapper {
 
     private ArrayList<Double> getSumatorios(List<CircunscripcionPartido> cps) {
         ArrayList<Double> sumatorios = new ArrayList<>();
-
         double sumatorioHasta = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_hasta).sum();
-
         // double sumatorioDesdeSondeo = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_desde_sondeo).sum();
         double sumatorioHastaSondeo = cps.stream().mapToInt(CircunscripcionPartido::getEscanos_hasta_sondeo).sum();
-
         sumatorios.add(sumatorioHasta);
         //Se añade una segunda vez, ya que la apertura de los "Desde" tomará también como total el sumatorio de los hasta
         sumatorios.add(sumatorioHastaSondeo);
@@ -97,11 +94,18 @@ public class CarmenDTOMapper {
 
     private ArrayList<Double> getAperturasArco(CircunscripcionPartido cp) {
         ArrayList<Double> aperturas = new ArrayList<>();
-        double aperturaOficial = cp.getEscanos_hasta() * gradosTotales / sumatorios.get(0);
+        double aperturaOficial = 0.0;
+        double aperturaDesdeSondeo = 0.0;
+        double aperturaHastaSondeo = 0.0;
+        if (sumatorios.get(0) != 0.0)
+            aperturaOficial = cp.getEscanos_hasta() * gradosTotales / sumatorios.get(0);
+        if (sumatorios.get(1) != 0.0)
+            aperturaDesdeSondeo = cp.getEscanos_desde_sondeo() * gradosTotales / sumatorios.get(1);
+        if (sumatorios.get(2) != 0.0)
+            aperturaHastaSondeo = cp.getEscanos_hasta_sondeo() * gradosTotales / sumatorios.get(2);
+
         posicionesFinales.set(0, posicionesIniciales.get(0) + aperturaOficial);
-        double aperturaDesdeSondeo = cp.getEscanos_desde_sondeo() * gradosTotales / sumatorios.get(1);
         posicionesFinales.set(1, posicionesIniciales.get(1) + aperturaDesdeSondeo);
-        double aperturaHastaSondeo = cp.getEscanos_hasta_sondeo() * gradosTotales / sumatorios.get(2);
         posicionesFinales.set(2, posicionesIniciales.get(2) + aperturaHastaSondeo);
         aperturas.add(aperturaOficial);
         aperturas.add(aperturaDesdeSondeo);
