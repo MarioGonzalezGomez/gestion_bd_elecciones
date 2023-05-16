@@ -282,8 +282,8 @@ public class AExcelExportService {
         createCell(row, columnCount++, x.getCircunscripcion().getVotantes(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getEscaniosHistoricos(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getAnioUltimosDatos(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getAvance2Hist(), style);
-        createCell(row, columnCount++, x.getCircunscripcion().getAvance3Hist(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getMayoria(), style);
+        createCell(row, columnCount++, x.getCircunscripcion().getAutonomiaOMunicipio(), style);
         createCell(row, columnCount++, x.getCircunscripcion().getParticipacionHist(), style);
         createCell(row, columnCount++, x.getNumPartidos(), style);
         createCell(row, columnCount++, tipoElecciones, style);

@@ -50,10 +50,14 @@ public class CircunscripcionDTOMapper {
                 .anioUltimosDatos(anioUltimas)
                 .votantes(c.getVotantes())
                 .escaniosHistoricos(c.getEscaniosHistoricos())
-                .avance2Hist(0.0)
-                .avance3Hist(0.0)
+                .mayoria(getMayoria(c.getEscanios()))
+                .autonomiaOMunicipio(0)
                 .participacionHist(0.0)
                 .build();
+    }
+
+    private int getMayoria(int escanios) {
+        return (escanios / 2) + 1;
     }
 
 }

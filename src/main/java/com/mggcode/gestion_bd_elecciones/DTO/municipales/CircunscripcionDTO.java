@@ -21,8 +21,8 @@ public class CircunscripcionDTO {
     private int votantes;
     private int escaniosHistoricos;
     private String anioUltimosDatos;
-    private double avance2Hist;
-    private double avance3Hist;
+    private int mayoria;
+    private int autonomiaOMunicipio;
     private double participacionHist;
 }
 
