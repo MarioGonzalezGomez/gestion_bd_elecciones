@@ -1,5 +1,8 @@
 package com.mggcode.gestion_bd_elecciones.service.municipales;
 
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.CircunscripcionResultadosDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.ProvinciaResultadosDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.ResultadosDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CircunscripcionDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.SedesDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CpDTO;
@@ -12,6 +15,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -138,6 +142,26 @@ public class CsvExportService {
                     dto.getSiglas(), dto.getLiteralPartido(), dto.getNumVotantes_hist()
             );
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeResultadosDTOToCsv(ResultadosDTO dto, PrintWriter writer) {
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
+            //DATOS CIRCUNSCRIPCION
+            csvPrinter.printRecord("Codigo de Autonomía", "Nombre", "Número de provincias");
+            CircunscripcionResultadosDTO cir = dto.getCcaa();
+            csvPrinter.printRecord(cir.getCodigo(), cir.getNombre(), cir.getNumProvincias());
+
+            //DATOS GANADORES
+            csvPrinter.printRecord("Codigo Circunscripcion", "Nombre", "Codigo Partido Ganador", "Siglas");
+
+            for (ProvinciaResultadosDTO provinciaDTO : dto.getProvincias()) {
+                csvPrinter.printRecord(provinciaDTO.getCodigo(), provinciaDTO.getNombre(),
+                        provinciaDTO.getCodPartidoGanador(), provinciaDTO.getNomPartidoGanador()
+                );
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

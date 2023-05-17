@@ -1,9 +1,6 @@
 package com.mggcode.gestion_bd_elecciones.service.autonomicas;
 
-import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
-import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CircunscripcionDTO;
-import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CpDTO;
-import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.SedesDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.*;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
@@ -12,6 +9,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -137,6 +135,26 @@ public class ACsvExportService {
                     dto.getSiglas(), dto.getLiteralPartido(), dto.getNumVotantes_hist()
             );
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeResultadosDTOToCsv(ResultadosDTO dto, PrintWriter writer) {
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
+            //DATOS CIRCUNSCRIPCION
+            csvPrinter.printRecord("Codigo de Autonomía", "Nombre", "Número de provincias");
+            CircunscripcionResultadosDTO cir = dto.getCcaa();
+            csvPrinter.printRecord(cir.getCodigo(), cir.getNombre(), cir.getNumProvincias());
+
+            //DATOS GANADORES
+            csvPrinter.printRecord("Codigo Circunscripcion", "Nombre", "Codigo Partido Ganador", "Siglas");
+
+            for (ProvinciaResultadosDTO provinciaDTO : dto.getProvincias()) {
+                csvPrinter.printRecord(provinciaDTO.getCodigo(), provinciaDTO.getNombre(),
+                        provinciaDTO.getCodPartidoGanador(), provinciaDTO.getNomPartidoGanador()
+                );
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
