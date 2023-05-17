@@ -36,30 +36,31 @@ public class SedesDTOController {
     @Autowired
     private CsvExportService csvExportService;
 
-    @GetMapping("/{circunscripcion}/{partido}")
-    public ResponseEntity<SedesDTO> findById(@PathVariable("circunscripcion") String circunscripcion, @PathVariable("partido") String partido) {
-        Partido p = parCon.findById(partido).getBody();
+    @GetMapping("/{partido}")
+    public ResponseEntity<SedesDTO> findById(@PathVariable("partido") String codPartido) {
+        Partido p = parCon.findById(codPartido).getBody();
         Key key = new Key();
-        key.setCircunscripcion(circunscripcion);
-        key.setPartido(partido);
+        key.setCircunscripcion("9900000");
+        key.setPartido(codPartido);
         CircunscripcionPartido cp = cpCon.findById(key);
         SedesDTOMapper mapper = new SedesDTOMapper();
-        return new ResponseEntity<>(mapper.toDTO(cp, p), HttpStatus.OK);
+        SedesDTO dto = mapper.toDTO(cp, p);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/{circunscripcion}/{partido}/csv")
-    public void getSedesDTOInCsv(@PathVariable("circunscripcion") String circunscripcion, @PathVariable("partido") String partido, HttpServletResponse servletResponse) throws IOException {
+    @RequestMapping(path = "{partido}/csv")
+    public void getSedesDTOInCsv(@PathVariable("partido") String partido, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=F_sedes.csv");
-        SedesDTO dto = findById(circunscripcion, partido).getBody();
+        SedesDTO dto = findById(partido).getBody();
         csvExportService.writeSedesDTOToCsv(dto, servletResponse.getWriter());
     }
 
-    @RequestMapping(path = "/{circunscripcion}/{partido}/excel")
-    public void getSedesDTOInExcel(@PathVariable("circunscripcion") String circunscripcion, @PathVariable("partido") String partido, HttpServletResponse servletResponse) throws IOException {
+    @RequestMapping(path = "{partido}/excel")
+    public void getSedesDTOInExcel(@PathVariable("partido") String partido, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=F_sedes.xlsx");
-        SedesDTO dto = findById(circunscripcion, partido).getBody();
+        SedesDTO dto = findById(partido).getBody();
         List<SedesDTO> listado = new ArrayList<>();
         listado.add(dto);
         ExcelExportService excelExportService = new ExcelExportService();

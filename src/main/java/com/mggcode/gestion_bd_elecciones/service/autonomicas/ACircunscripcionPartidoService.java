@@ -23,11 +23,9 @@ public class ACircunscripcionPartidoService {
         return circunscripcionPartidoRepository.save(circunscripcionPartido);
     }
 
-
     public CircunscripcionPartido update(CircunscripcionPartido circunscripcionPartido) {
         return circunscripcionPartidoRepository.save(circunscripcionPartido);
     }
-
 
     public CircunscripcionPartido findById(Key id) {
         Optional<CircunscripcionPartido> CircunscripcionPartidoOptional = circunscripcionPartidoRepository.findById(id);
