@@ -66,6 +66,26 @@ public class ACircunscripcionPartidoController {
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }
 
+    @GetMapping("/esp")
+    public ResponseEntity<List<CircunscripcionPartido>> getEsp() {
+
+        List<CircunscripcionPartido> mayoritarios = circunscripcionPartidoService.findAll()
+                .stream().filter(x -> x.getKey().getCircunscripcion().endsWith("00000"))
+                //.filter(x -> x.getKey().getCircunscripcion().startsWith("99"))
+                .sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .collect(Collectors.toList());
+        List<String> CCAA = new ArrayList<>();
+        List<CircunscripcionPartido> filtrada = new ArrayList<>();
+        for (CircunscripcionPartido cp : mayoritarios) {
+            String ccaa = cp.getKey().getCircunscripcion().substring(0, 2);
+            if (!CCAA.contains(ccaa)) {
+                filtrada.add(cp);
+                CCAA.add(ccaa);
+            }
+        }
+        filtrada.sort(new Comparador());
+        return new ResponseEntity<>(filtrada, HttpStatus.OK);
+    }
     @RequestMapping(path = "/mayorias/autonomias/csv")
     public void masVotadosPorAutonomiaInCsv(HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
