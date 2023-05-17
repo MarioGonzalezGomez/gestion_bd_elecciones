@@ -7,7 +7,7 @@ public class CircunscripcionResultadosDTOMapper {
 
     public CircunscripcionResultadosDTO toDTO(Circunscripcion c, int numProvincias) {
         return CircunscripcionResultadosDTO.builder()
-                .codigo(c.getCodigo())
+                .codigo(c.getCodigo().substring(0, 2))
                 .nombre(c.getNombreCircunscripcion())
                 .numProvincias(numProvincias)
                 .build();
