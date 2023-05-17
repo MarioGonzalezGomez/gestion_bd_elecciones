@@ -112,7 +112,7 @@ public class ACarmenDTOController {
         });
         CarmenDTOMapper mapper = new CarmenDTOMapper();
         var dtoList = circunscripcionList.stream()
-                .filter(c -> c.getCodigo().endsWith("00000") && !c.getCodigo().startsWith("99"))
+                .filter(c -> c.getCodigo().endsWith("00000"))
                 .map(c -> mapper.toDTO(c, espania, cp, partidos)).toList();
         return new ResponseEntity<>(new CarmenDtoList(dtoList), HttpStatus.OK);
 
