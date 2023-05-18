@@ -1,7 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO;
-import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.PrimeDTOMapper;
+import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.PrimeDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;

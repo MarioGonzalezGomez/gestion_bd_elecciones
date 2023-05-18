@@ -2,7 +2,7 @@ package com.mggcode.gestion_bd_elecciones.controller.municipales;
 
 
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.SedesDTO;
-import com.mggcode.gestion_bd_elecciones.mapper.municipales.SedesDTOMapper;
+import com.mggcode.gestion_bd_elecciones.DTO.mapper.municipales.SedesDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Key;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;

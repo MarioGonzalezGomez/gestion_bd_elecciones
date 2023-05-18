@@ -1,4 +1,4 @@
-package com.mggcode.gestion_bd_elecciones.mapper.autonomicas;
+package com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.SedesDTO;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;

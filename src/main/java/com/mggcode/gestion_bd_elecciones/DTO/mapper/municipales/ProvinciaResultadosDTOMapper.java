@@ -1,7 +1,7 @@
-package com.mggcode.gestion_bd_elecciones.mapper.autonomicas;
+package com.mggcode.gestion_bd_elecciones.DTO.mapper.municipales;
 
-import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.ProvinciaResultadosDTO;
-import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
+import com.mggcode.gestion_bd_elecciones.DTO.municipales.ProvinciaResultadosDTO;
+import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 
 
 public class ProvinciaResultadosDTOMapper {

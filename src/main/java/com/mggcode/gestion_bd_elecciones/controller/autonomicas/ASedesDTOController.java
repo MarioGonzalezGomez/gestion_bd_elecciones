@@ -2,7 +2,7 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.SedesDTO;
-import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.SedesDTOMapper;
+import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.SedesDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Key;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;

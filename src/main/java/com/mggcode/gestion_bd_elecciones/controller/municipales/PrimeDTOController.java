@@ -1,7 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.controller.municipales;
 
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.PrimeDTO;
-import com.mggcode.gestion_bd_elecciones.mapper.municipales.PrimeDTOMapper;
+import com.mggcode.gestion_bd_elecciones.DTO.mapper.municipales.PrimeDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;

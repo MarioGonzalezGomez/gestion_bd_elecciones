@@ -1,11 +1,11 @@
-package com.mggcode.gestion_bd_elecciones.mapper.municipales;
+package com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas;
 
-import com.mggcode.gestion_bd_elecciones.DTO.municipales.CpPrimeDTO;
-import com.mggcode.gestion_bd_elecciones.DTO.municipales.PrimeDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CpPrimeDTO;
+import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.PrimeDTO;
 import com.mggcode.gestion_bd_elecciones.logic.LecturaFicheroColores;
-import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
-import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
-import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;
+import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
+import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
+import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
 
 import java.util.ArrayList;
 import java.util.HashMap;

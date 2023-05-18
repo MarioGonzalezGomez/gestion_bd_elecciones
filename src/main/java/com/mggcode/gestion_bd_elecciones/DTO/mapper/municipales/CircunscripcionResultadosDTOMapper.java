@@ -1,4 +1,4 @@
-package com.mggcode.gestion_bd_elecciones.mapper.municipales;
+package com.mggcode.gestion_bd_elecciones.DTO.mapper.municipales;
 
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CircunscripcionResultadosDTO;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;

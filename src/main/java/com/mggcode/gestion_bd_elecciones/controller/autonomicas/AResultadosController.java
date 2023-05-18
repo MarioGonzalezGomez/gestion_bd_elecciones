@@ -1,13 +1,9 @@
 package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
-import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.ResultadosDTO;
-import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.CarmenDTOMapper;
-import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.ResultadosDTOMapper;
+import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.ResultadosDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
-import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
-import com.mggcode.gestion_bd_elecciones.service.autonomicas.ACircunscripcionPartidoService;
 import com.mggcode.gestion_bd_elecciones.service.autonomicas.ACsvExportService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/autonomicas/resultados")

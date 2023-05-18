@@ -3,7 +3,7 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDtoList;
-import com.mggcode.gestion_bd_elecciones.mapper.autonomicas.CarmenDTOMapper;
+import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.CarmenDTOMapper;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
