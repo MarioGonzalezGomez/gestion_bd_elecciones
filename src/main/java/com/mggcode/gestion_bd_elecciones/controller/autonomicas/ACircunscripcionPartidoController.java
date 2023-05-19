@@ -161,7 +161,9 @@ public class ACircunscripcionPartidoController {
             }
         }
         //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
-        filtrada.remove(0);
+        if (provincia.size() != 1) {
+            filtrada.remove(0);
+        }
         filtrada.sort(new Comparador());
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }

@@ -131,6 +131,7 @@ public class CircunscripcionPartidoController {
                 .filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
                 .sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
                 .collect(Collectors.toList());
+
         List<String> provincia = new ArrayList<>();
         List<CircunscripcionPartido> filtrada = new ArrayList<>();
         for (CircunscripcionPartido cp : mayoritarios) {
@@ -141,7 +142,9 @@ public class CircunscripcionPartidoController {
             }
         }
         //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
-        filtrada.remove(0);
+        if (provincia.size() != 1) {
+            filtrada.remove(0);
+        }
         filtrada.sort(new Comparador());
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }
