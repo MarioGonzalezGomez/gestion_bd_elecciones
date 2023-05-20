@@ -141,26 +141,18 @@ public class ACsvExportService {
 
     public void writeResultadosDTOToCsv(ResultadosDTO dto, PrintWriter writer) {
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
+            //DATOS CIRCUNSCRIPCION
+            csvPrinter.printRecord("Codigo de Autonomía", "Nombre", "Número de provincias");
+            CircunscripcionResultadosDTO cir = dto.getCcaa();
+            csvPrinter.printRecord(cir.getCodigo(), cir.getNombre(), cir.getNumProvincias());
 
-            if (dto.getProvincias().size() == 1) {
-                csvPrinter.printRecord("Codigo de Autonomía", "Nombre", "Número de provincias", "Partido Ganador", "Nombre");
-                CircunscripcionResultadosDTO cir = dto.getCcaa();
-                csvPrinter.printRecord(cir.getCodigo(), cir.getNombre(), cir.getNumProvincias(), dto.getProvincias().get(0).getCodPartidoGanador(),
-                        dto.getProvincias().get(0).getNomPartidoGanador());
-            } else {
-                //DATOS CIRCUNSCRIPCION
-                csvPrinter.printRecord("Codigo de Autonomía", "Nombre", "Número de provincias");
-                CircunscripcionResultadosDTO cir = dto.getCcaa();
-                csvPrinter.printRecord(cir.getCodigo(), cir.getNombre(), cir.getNumProvincias());
+            //DATOS GANADORES
+            csvPrinter.printRecord("Codigo Circunscripcion", "Nombre", "Codigo Partido Ganador", "Siglas");
 
-                //DATOS GANADORES
-                csvPrinter.printRecord("Codigo Circunscripcion", "Nombre", "Codigo Partido Ganador", "Siglas");
-
-                for (ProvinciaResultadosDTO provinciaDTO : dto.getProvincias()) {
-                    csvPrinter.printRecord(provinciaDTO.getCodigo(), provinciaDTO.getNombre(),
-                            provinciaDTO.getCodPartidoGanador(), provinciaDTO.getNomPartidoGanador()
-                    );
-                }
+            for (ProvinciaResultadosDTO provinciaDTO : dto.getProvincias()) {
+                csvPrinter.printRecord(provinciaDTO.getCodigo(), provinciaDTO.getNombre(),
+                        provinciaDTO.getCodPartidoGanador(), provinciaDTO.getNomPartidoGanador()
+                );
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
