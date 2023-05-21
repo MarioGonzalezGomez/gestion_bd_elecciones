@@ -38,8 +38,8 @@ public class HomeController {
 
     @GetMapping("/reserva")
     public String cambiarDbReseva() {
-        autonomicasDbConfig.changeDataSourceAuto("172.28.51.21");
-        municipalesDbConfig.changeDataSourceMuni("172.28.51.21");
+        autonomicasDbConfig.changeDataSourceAuto("172.28.51.22");
+        municipalesDbConfig.changeDataSourceMuni("172.28.51.22");
         return "redirect:";
     }
 
