@@ -1,6 +1,7 @@
 package com.mggcode.gestion_bd_elecciones.controller.municipales;
 
 import com.mggcode.gestion_bd_elecciones.exception.ModelNotFoundException;
+import com.mggcode.gestion_bd_elecciones.logic.municipales.CircunscripcionPartidoOficial;
 import com.mggcode.gestion_bd_elecciones.logic.municipales.Comparador;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Key;
@@ -129,8 +130,9 @@ public class CircunscripcionPartidoController {
                 .stream().filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 .filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
                 .filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
-                .sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .sorted(new CircunscripcionPartidoOficial().reversed())
                 .collect(Collectors.toList());
+
         List<String> provincia = new ArrayList<>();
         List<CircunscripcionPartido> filtrada = new ArrayList<>();
         for (CircunscripcionPartido cp : mayoritarios) {
@@ -141,7 +143,9 @@ public class CircunscripcionPartidoController {
             }
         }
         //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
-        filtrada.remove(0);
+        if (provincia.size() != 1) {
+            filtrada.remove(0);
+        }
         filtrada.sort(new Comparador());
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }

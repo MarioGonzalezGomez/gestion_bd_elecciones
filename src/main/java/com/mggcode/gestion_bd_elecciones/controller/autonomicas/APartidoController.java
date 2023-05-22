@@ -40,6 +40,14 @@ public class APartidoController {
         csvExportService.writePartidoToCsv(partidos, servletResponse.getWriter());
     }
 
+    @RequestMapping(path = "/filtrado/csv")
+    public void findFiltradoInCsv(HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"Partidos.csv\"");
+        List<Partido> partidos = findAll().getBody().stream().filter(partido -> !partido.getCodigo().equals(partido.getCodigoPadre())).toList();
+        csvExportService.writePartidoToCsv(partidos, servletResponse.getWriter());
+    }
+
     //Imagino que pesa demasiado el proceso y no es capaz de sacar el excel
     @RequestMapping(path = "/excel")
     public void findAllInExcel(HttpServletResponse servletResponse) throws IOException {

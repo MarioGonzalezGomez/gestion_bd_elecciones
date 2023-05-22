@@ -1,7 +1,9 @@
 package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.exception.ModelNotFoundException;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.CircunscripcionPartidoOficial;
 import com.mggcode.gestion_bd_elecciones.logic.autonomicas.Comparador;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.ComparadorCombinado;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Key;
 import com.mggcode.gestion_bd_elecciones.service.autonomicas.ACircunscripcionPartidoService;
@@ -149,7 +151,7 @@ public class ACircunscripcionPartidoController {
                 .stream().filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 .filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
                 .filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
-                .sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .sorted(new CircunscripcionPartidoOficial().reversed())
                 .collect(Collectors.toList());
         List<String> provincia = new ArrayList<>();
         List<CircunscripcionPartido> filtrada = new ArrayList<>();
@@ -161,7 +163,9 @@ public class ACircunscripcionPartidoController {
             }
         }
         //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
-        filtrada.remove(0);
+        if (provincia.size() != 1) {
+            filtrada.remove(0);
+        }
         filtrada.sort(new Comparador());
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }

@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 @SpringBootApplication
 public class GestionBdEleccionesApplication {
@@ -27,15 +28,11 @@ public class GestionBdEleccionesApplication {
         //System.out.println("Abriendo parte gráfica");
         //browse("http://localhost:8080");
         System.out.println(ANSI_GREEN + "INICIANDO CLIENTE" + ANSI_RESET);
-       // runClient();
+        runClient();
     }
 
     public static void runClient() {
-        String ruta = System.getProperty("user.dir") + "\\script.bat";
-        System.out.println(System.getProperty("user.dir"));
-        System.out.println(ruta);
-
-
+        String ruta = Paths.get("").toAbsolutePath().toString() + "\\script.bat";
         try {
             ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", ruta);
             pb.inheritIO();
@@ -51,7 +48,6 @@ public class GestionBdEleccionesApplication {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void browse(String url) {

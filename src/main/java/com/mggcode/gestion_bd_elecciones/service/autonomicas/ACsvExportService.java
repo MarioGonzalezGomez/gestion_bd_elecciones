@@ -134,7 +134,6 @@ public class ACsvExportService {
                     dto.getPorcentajeVoto(), dto.getPorcentajeVotoHistorico(), dto.getNumVotantes(),
                     dto.getSiglas(), dto.getLiteralPartido(), dto.getNumVotantes_hist()
             );
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
