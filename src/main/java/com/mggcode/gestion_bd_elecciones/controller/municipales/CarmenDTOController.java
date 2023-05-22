@@ -3,6 +3,7 @@ package com.mggcode.gestion_bd_elecciones.controller.municipales;
 
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.mapper.municipales.CarmenDTOMapper;
+import com.mggcode.gestion_bd_elecciones.logic.municipales.ComparadorCombinado;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;
@@ -49,12 +50,8 @@ public class CarmenDTOController {
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionOficial(cod1).stream()
-                //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
-                //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
-                //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
-                //.filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                //.sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .sorted(new ComparadorCombinado().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
@@ -73,12 +70,8 @@ public class CarmenDTOController {
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
-                //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
-                //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
-                //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
-                //.filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                //.sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .sorted(new ComparadorCombinado().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
