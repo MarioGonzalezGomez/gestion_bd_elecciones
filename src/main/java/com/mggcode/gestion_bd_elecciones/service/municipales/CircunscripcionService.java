@@ -7,6 +7,7 @@ import com.mggcode.gestion_bd_elecciones.repository.municipales.CircunscripcionR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +29,13 @@ public class CircunscripcionService implements IBaseService<Circunscripcion> {
 
     @Override
     public Circunscripcion findById(String id) {
-        Optional<Circunscripcion> circunscripcionOptional = circunscripcionRepository.findById(id);
-        return circunscripcionOptional.orElse(null);
+        Circunscripcion circunscripcionOptional = circunscripcionRepository.findCircunscripcionById(id);
+        return circunscripcionOptional;
     }
 
     @Override
     public List<Circunscripcion> findAll() {
-        return circunscripcionRepository.findAll();
+        return circunscripcionRepository.findAllCircunscripciones();
     }
 
     @Override
