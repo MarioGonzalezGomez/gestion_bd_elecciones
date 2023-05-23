@@ -4,6 +4,7 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDtoList;
 import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.CarmenDTOMapper;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.ComparadorCombinado;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Partido;
@@ -50,12 +51,8 @@ public class ACarmenDTOController {
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionOficial(cod1).stream()
-                //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
-                //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
-                //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
-                //.filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                //.sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .sorted(new ComparadorCombinado().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
@@ -75,12 +72,8 @@ public class ACarmenDTOController {
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
-                //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
-                //.filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
-                //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
-                //.filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                //.sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .sorted(new ComparadorCombinado().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
@@ -98,12 +91,9 @@ public class ACarmenDTOController {
         List<Circunscripcion> circunscripcionList = cirCon.findAll().getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findAll().stream()
-                //.filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 .filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
-                //.filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
-                //.filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                //.sorted(Comparator.comparing(CircunscripcionPartido::getEscanos_hasta).reversed())
+                .sorted(new ComparadorCombinado().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
