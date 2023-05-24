@@ -63,4 +63,7 @@ public class Circunscripcion {
     @Column(name = "participacion_hist")
     private double participacionHist;
 
+    @Column
+    private int mostrar;
+
 }

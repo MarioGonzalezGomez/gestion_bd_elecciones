@@ -32,6 +32,12 @@ public class CircunscripcionController {
         return new ResponseEntity<>(circunscripcionService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/filtrada")
+    public ResponseEntity<List<Circunscripcion>> filtradasPorMostrar() {
+        List<Circunscripcion> filtradas = circunscripcionService.findAll().stream().filter(c -> c.getMostrar() == 1).toList();
+        return new ResponseEntity<>(filtradas, HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/csv")
     public void findAllInCsv(HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
