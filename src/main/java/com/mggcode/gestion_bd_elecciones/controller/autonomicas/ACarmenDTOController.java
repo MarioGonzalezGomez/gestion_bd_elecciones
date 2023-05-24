@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @RestController
@@ -55,11 +56,11 @@ public class ACarmenDTOController {
                 .filter(x -> x.getEscanos_hasta() > 0.0)
                 .sorted(new ComparadorCombinado().reversed())
                 .collect(Collectors.toList());
-
         List<Partido> partidos = new ArrayList<>();
         cp.forEach(x -> {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
+
         CarmenDTOMapper mapper = new CarmenDTOMapper();
         CarmenDTO dto = mapper.toDTO(circunscripcion, espania, cp, partidos);
 
