@@ -56,29 +56,10 @@ public class ACarmenDTOController {
                 .filter(x -> x.getEscanos_hasta() > 0.0)
                 .sorted(new ComparadorCombinado().reversed())
                 .collect(Collectors.toList());
-
-
         List<Partido> partidos = new ArrayList<>();
         cp.forEach(x -> {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
-
-
-            var otrosList = partidos.stream().filter(p -> p.getCodigo().equals("99999")).toList();
-            if(!otrosList.isEmpty()){
-                System.out.println("Contiene otros");
-                System.out.println(otrosList);
-
-                var otros = otrosList.get(0);
-                System.out.println(otros);
-                var p = partidos.remove(partidos.indexOf(otros));
-                System.out.println(p);
-                System.out.println(partidos);
-                System.out.println("Salió");
-                partidos.add(p);
-                System.out.println(partidos);
-            }
-
 
         CarmenDTOMapper mapper = new CarmenDTOMapper();
         CarmenDTO dto = mapper.toDTO(circunscripcion, espania, cp, partidos);
