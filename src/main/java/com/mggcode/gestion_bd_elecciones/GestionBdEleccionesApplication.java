@@ -28,7 +28,7 @@ public class GestionBdEleccionesApplication {
         //System.out.println("Abriendo parte gráfica");
         //browse("http://localhost:8080");
         System.out.println(ANSI_GREEN + "INICIANDO CLIENTE" + ANSI_RESET);
-        //runClient();
+        runClient();
     }
 
     public static void runClient() {
