@@ -72,14 +72,14 @@ public class ACsvExportService {
         df.setDecimalFormatSymbols(dfs);
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withDelimiter(';'))) {
             csvPrinter.printRecord("Codigo", "Comunidad Autonoma", "Provincia", "Municipio", "Descripcion", "Escrutado", "Escanios",
-                    "Participacion", "Participacion Historica", "Media de participacion", "Literal participacion", "Votantes",
+                    "Participacion", "Participacion Historica", "Media de participacion", "Avance", "Votantes",
                     "Escanios Historicos", "Anio ultimas elecciones", "Mayoria", "Sin uso", "Sin uso",
                     "Numero de partidos", "Tipo de elecciones"
             );
             CircunscripcionDTO cir = cDTO.getCircunscripcion();
             csvPrinter.printRecord(cir.getCodigo(), cir.getCodigoComunidad(), cir.getCodigoProvincia(), cir.getCodigoMunicipio(),
                     cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(),
-                    cir.getParticipacion(), cir.getParticipacionHistorico(), cir.getParticipacionMedia(), cir.getLiteralParticipacion(), cir.getVotantes(),
+                    cir.getParticipacion(), cir.getParticipacionHistorico(), cir.getParticipacionMedia(), cir.getAvanceActual(), cir.getVotantes(),
                     cir.getEscaniosHistoricos(), cir.getAnioUltimosDatos(), cir.getMayoria(), cir.getAutonomiaOMunicipio(), cir.getParticipacionHist(),
                     cDTO.getNumPartidos(), "Autonómicas"
             );

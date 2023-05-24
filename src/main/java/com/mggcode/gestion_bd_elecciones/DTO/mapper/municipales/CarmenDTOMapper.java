@@ -21,7 +21,7 @@ public class CarmenDTOMapper {
 
     public CarmenDTO toDTO(Circunscripcion c, Circunscripcion espania, List<CircunscripcionPartido> cp, List<Partido> p) {
         CircunscripcionDTOMapper mapper = new CircunscripcionDTOMapper();
-        CircunscripcionDTO cdto = mapper.toDTO(c, espania, "Participación", getAnio(c.getCodigoComunidad()));
+        CircunscripcionDTO cdto = mapper.toDTO(c, espania, getAnio(c.getCodigoComunidad()));
         posicionesIniciales = new ArrayList<>();
         posicionesIniciales.add(0.0);
         posicionesIniciales.add(0.0);

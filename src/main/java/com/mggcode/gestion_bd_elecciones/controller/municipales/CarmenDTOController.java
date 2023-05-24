@@ -92,6 +92,15 @@ public class CarmenDTOController {
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
     }
 
+    @RequestMapping(path = "/oficial/{codigo}/{avance}/csv")
+    public void getCarmenDTOInCsvOficial(@PathVariable("codigo") String cod1, @PathVariable("avance") int avance, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CarmenDTO_" + cod1 + ".csv\"");
+        CarmenDTO dto = getCarmenDTOOficial(cod1).getBody();
+
+        csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
+    }
+
     @RequestMapping(path = "/sondeo/{codigo}/csv")
     public void getCarmenDTOInCsvSondeo(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
