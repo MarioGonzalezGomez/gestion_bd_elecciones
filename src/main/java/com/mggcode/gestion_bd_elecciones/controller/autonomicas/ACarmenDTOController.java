@@ -4,6 +4,7 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDtoList;
 import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.CarmenDTOMapper;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.Comparador;
 import com.mggcode.gestion_bd_elecciones.logic.autonomicas.ComparadorCombinado;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
@@ -73,13 +74,11 @@ public class ACarmenDTOController {
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                .sorted(new ComparadorCombinado().reversed())
+                .sorted(new Comparador().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
-        cp.forEach(x -> {
-            partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
-        });
+        cp.forEach(x -> partidos.add(parCon.findById(x.getKey().getPartido()).getBody()));
         CarmenDTOMapper mapper = new CarmenDTOMapper();
         CarmenDTO dto = mapper.toDTO(circunscripcion, espania, cp, partidos);
 
