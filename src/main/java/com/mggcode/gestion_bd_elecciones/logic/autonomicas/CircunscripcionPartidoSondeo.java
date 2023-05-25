@@ -9,6 +9,7 @@ public class CircunscripcionPartidoSondeo implements Comparator<CircunscripcionP
     //TODO(
     @Override
     public int compare(CircunscripcionPartido o1, CircunscripcionPartido o2) {
+        if(o1.getKey().getPartido().equals("99999"))return -1;
         int comp = Integer.compare(o1.getEscanos_hasta_sondeo(), o2.getEscanos_hasta_sondeo());
         if (comp == 0) {
             comp = Integer.compare(o1.getEscanos_desde_sondeo(), o2.getEscanos_desde_sondeo());

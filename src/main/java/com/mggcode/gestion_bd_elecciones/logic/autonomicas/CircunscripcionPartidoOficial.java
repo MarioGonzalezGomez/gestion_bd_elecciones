@@ -9,6 +9,7 @@ public class CircunscripcionPartidoOficial implements Comparator<Circunscripcion
     //TODO(
     @Override
     public int compare(CircunscripcionPartido o1, CircunscripcionPartido o2) {
+        if(o1.getKey().getPartido().equals("99999"))return -1;
         if (o1.getEscanos_hasta() == o2.getEscanos_hasta()) {
             if (o1.getNumVotantes() == o2.getNumVotantes()) {
                 return 0;
