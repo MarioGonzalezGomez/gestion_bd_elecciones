@@ -4,6 +4,8 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.CarmenDtoList;
 import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.CarmenDTOMapper;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.CircunscripcionPartidoOficial;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.CircunscripcionPartidoSondeo;
 import com.mggcode.gestion_bd_elecciones.logic.autonomicas.Comparador;
 import com.mggcode.gestion_bd_elecciones.logic.autonomicas.ComparadorCombinado;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
@@ -54,7 +56,7 @@ public class ACarmenDTOController {
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionOficial(cod1).stream()
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                .sorted(new ComparadorCombinado().reversed())
+                .sorted(new CircunscripcionPartidoOficial().reversed())
                 .collect(Collectors.toList());
         List<Partido> partidos = new ArrayList<>();
         cp.forEach(x -> {
@@ -75,7 +77,7 @@ public class ACarmenDTOController {
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                .sorted(new Comparador().reversed())
+                .sorted(new CircunscripcionPartidoSondeo().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
@@ -93,7 +95,7 @@ public class ACarmenDTOController {
         List<CircunscripcionPartido> cp = cpCon.findAll().stream()
                 .filter(x -> !x.getKey().getCircunscripcion().endsWith("00000"))
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                .sorted(new ComparadorCombinado().reversed())
+                .sorted(new CircunscripcionPartidoOficial().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
