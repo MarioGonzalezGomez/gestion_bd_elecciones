@@ -3,6 +3,8 @@ package com.mggcode.gestion_bd_elecciones.controller.municipales;
 
 import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.mapper.municipales.CarmenDTOMapper;
+import com.mggcode.gestion_bd_elecciones.logic.municipales.CircunscripcionPartidoOficial;
+import com.mggcode.gestion_bd_elecciones.logic.municipales.CircunscripcionPartidoSondeo;
 import com.mggcode.gestion_bd_elecciones.logic.municipales.ComparadorCombinado;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
@@ -51,7 +53,7 @@ public class CarmenDTOController {
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionOficial(cod1).stream()
                 .filter(x -> x.getEscanos_hasta() > 0.0)
-                .sorted(new ComparadorCombinado().reversed())
+                .sorted(new CircunscripcionPartidoOficial().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
@@ -71,7 +73,7 @@ public class CarmenDTOController {
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
                 .filter(x -> x.getEscanos_hasta_sondeo() > 0.0)
-                .sorted(new ComparadorCombinado().reversed())
+                .sorted(new CircunscripcionPartidoSondeo().reversed())
                 .collect(Collectors.toList());
 
         List<Partido> partidos = new ArrayList<>();
