@@ -94,7 +94,10 @@ public class ACsvExportService {
             for (CpDTO dto : cDTO.getCpDTO()) {
                 int diferencia = dto.getEscanos_hasta() - dto.getEscanos_hasta_hist();
                 String tendencia;
-                if (diferencia < 0) {
+                if (dto.getEscanos_hasta_hist() == 0) {
+                    diferencia = 0;
+                    tendencia = "*";
+                } else if (diferencia < 0) {
                     diferencia = diferencia * (-1);
                     tendencia = "-";
                 } else if (diferencia == 0) {
