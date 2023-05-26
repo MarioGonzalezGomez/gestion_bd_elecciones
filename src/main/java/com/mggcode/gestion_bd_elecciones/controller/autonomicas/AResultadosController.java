@@ -35,10 +35,10 @@ public class AResultadosController {
     @Autowired
     private ACsvExportService csvExportService;
 
-    @GetMapping("/{codigo}")
-    public ResponseEntity<ResultadosDTO> getResultadosDTO(@PathVariable("codigo") String cod) {
+    @GetMapping("/sondeo/{codigo}")
+    public ResponseEntity<ResultadosDTO> getResultadosDTOSondeo(@PathVariable("codigo") String cod) {
         Circunscripcion circunscripcion = cirCon.findById(cod).getBody();
-        List<CircunscripcionPartido> cps = cpCon.masVotadosAutonomicoPorProvincia(cod).getBody();
+        List<CircunscripcionPartido> cps = cpCon.masVotadosAutonomicoPorProvinciaSondeo(cod).getBody();
         cps.sort(new ComparadorCombinado().reversed());
         List<String> nombreProvincias = new ArrayList<>();
         List<String> nombreGanadores = new ArrayList<>();
@@ -53,11 +53,37 @@ public class AResultadosController {
         return new ResponseEntity<>(resultados, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/{codigo}/csv")
-    public void getResultadosDTOInCsv(@PathVariable("codigo") String cod, HttpServletResponse servletResponse) throws IOException {
+    @GetMapping("/oficial/{codigo}")
+    public ResponseEntity<ResultadosDTO> getResultadosDTOOficial(@PathVariable("codigo") String cod) {
+        Circunscripcion circunscripcion = cirCon.findById(cod).getBody();
+        List<CircunscripcionPartido> cps = cpCon.masVotadosAutonomicoPorProvinciaOficial(cod).getBody();
+        cps.sort(new ComparadorCombinado().reversed());
+        List<String> nombreProvincias = new ArrayList<>();
+        List<String> nombreGanadores = new ArrayList<>();
+        cps.forEach(cp -> {
+            String ganador = parCon.findById(cp.getKey().getPartido()).getBody().getSiglas();
+            String provincia = cirCon.findById(cp.getKey().getCircunscripcion()).getBody().getNombreCircunscripcion();
+            nombreGanadores.add(ganador);
+            nombreProvincias.add(provincia);
+        });
+        ResultadosDTOMapper mapper = new ResultadosDTOMapper();
+        ResultadosDTO resultados = mapper.toDTO(circunscripcion, cps, nombreProvincias, nombreGanadores);
+        return new ResponseEntity<>(resultados, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/oficial/{codigo}/csv")
+    public void getResultadosDTOInCsvOficial(@PathVariable("codigo") String cod, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"ResultadosDTO_" + cod + ".csv\"");
-        ResultadosDTO dto = getResultadosDTO(cod).getBody();
+       ResultadosDTO dto = getResultadosDTOOficial(cod).getBody();
+        csvExportService.writeResultadosDTOToCsv(dto, servletResponse.getWriter());
+    }
+
+    @RequestMapping(path = "/sondeo/{codigo}/csv")
+    public void getResultadosDTOInCsvSondeo(@PathVariable("codigo") String cod, HttpServletResponse servletResponse) throws IOException {
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"ResultadosDTO_" + cod + ".csv\"");
+        ResultadosDTO dto = getResultadosDTOSondeo(cod).getBody();
         csvExportService.writeResultadosDTOToCsv(dto, servletResponse.getWriter());
     }
 
