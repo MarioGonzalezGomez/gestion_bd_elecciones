@@ -130,6 +130,7 @@ public class CircunscripcionPartidoController {
                 .stream().filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 .filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
                 .filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
+                .filter(x -> !x.getKey().getPartido().startsWith("999"))
                 .sorted(new CircunscripcionPartidoOficial().reversed())
                 .collect(Collectors.toList());
 

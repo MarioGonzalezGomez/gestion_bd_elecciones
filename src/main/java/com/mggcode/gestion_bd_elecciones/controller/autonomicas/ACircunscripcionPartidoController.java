@@ -88,6 +88,7 @@ public class ACircunscripcionPartidoController {
         filtrada.sort(new Comparador());
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }
+
     @RequestMapping(path = "/mayorias/autonomias/csv")
     public void masVotadosPorAutonomiaInCsv(HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
@@ -151,6 +152,7 @@ public class ACircunscripcionPartidoController {
                 .stream().filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 .filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
                 .filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
+                .filter(x -> !x.getKey().getPartido().startsWith("999"))
                 .sorted(new CircunscripcionPartidoOficial().reversed())
                 .toList();
         List<String> provincia = new ArrayList<>();
@@ -165,7 +167,7 @@ public class ACircunscripcionPartidoController {
         //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
         if (provincia.size() != 1) {
             var remove = filtrada.stream().filter(x -> x.getKey().getCircunscripcion().endsWith("00000")).toList();
-            if(remove.size() >0){
+            if (remove.size() > 0) {
                 filtrada.remove(remove.get(0));
             }
             //filtrada.remove(0);
@@ -173,6 +175,7 @@ public class ACircunscripcionPartidoController {
         filtrada.sort(new Comparador());
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }
+
     @GetMapping("/mayorias/sondeo/{codigo}")
     public ResponseEntity<List<CircunscripcionPartido>> masVotadosAutonomicoPorProvinciaSondeo(@PathVariable("codigo") String cod1) {
         List<CircunscripcionPartido> mayoritarios = circunscripcionPartidoService.findAll()
@@ -197,6 +200,7 @@ public class ACircunscripcionPartidoController {
         filtrada.sort(new Comparador());
         return new ResponseEntity<>(filtrada, HttpStatus.OK);
     }
+
     @RequestMapping(path = "/mayorias/{codigo}/csv")
     public void masVotadosAutonomicoPorProvinciaInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
