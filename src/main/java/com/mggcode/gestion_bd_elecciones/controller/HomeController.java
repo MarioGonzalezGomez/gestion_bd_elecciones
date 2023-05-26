@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.sql.DataSource;
@@ -17,6 +18,8 @@ import java.sql.SQLException;
 
 @Controller
 public class HomeController {
+
+    public static String avance = "";
 
     @Autowired
     private AutonomicasDB autonomicasDbConfig;
@@ -36,6 +39,12 @@ public class HomeController {
     @GetMapping("/test")
     public ResponseEntity<String> testConnection() {
         return new ResponseEntity<>("Conexión establecida", HttpStatus.OK);
+    }
+
+    @GetMapping("/avance/{codigo}")
+    public String setAvance(@PathVariable("codigo") String cod) {
+        avance = cod;
+        return "redirect:";
     }
 
     @GetMapping("/dbactual")
