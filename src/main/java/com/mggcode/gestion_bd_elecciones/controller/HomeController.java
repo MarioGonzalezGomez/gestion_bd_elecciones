@@ -7,16 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-@Controller
+@RestController
 public class HomeController {
 
     public static String avance = "";
@@ -31,20 +29,20 @@ public class HomeController {
     @Qualifier("autonomicasDatasource")
     private DataSource dataSource;
 
-    @RequestMapping(value = "/")
-    public String index(Model model) {
-        return "index";
-    }
+    //@RequestMapping(value = "/")
+    //public String index(Model model) {
+    //    return "index";
+    //}
 
     @GetMapping("/test")
     public ResponseEntity<String> testConnection() {
         return new ResponseEntity<>("Conexión establecida", HttpStatus.OK);
     }
 
-    @GetMapping("/avance/{codigo}")
-    public String setAvance(@PathVariable("codigo") String cod) {
+    @GetMapping("/{codigo}")
+    public ResponseEntity<String> setAvance(@PathVariable("codigo") String cod) {
         avance = cod;
-        return "redirect:";
+        return new ResponseEntity<>("202 OK", HttpStatus.OK);
     }
 
     @GetMapping("/dbactual")
@@ -73,24 +71,24 @@ public class HomeController {
     }
 
     @GetMapping("/principal")
-    public String cambiarDbPrincipal() {
+    public ResponseEntity<String> cambiarDbPrincipal() {
         autonomicasDbConfig.changeDataSourceAuto("172.28.51.21");
         municipalesDbConfig.changeDataSourceMuni("172.28.51.21");
-        return "redirect:";
+        return new ResponseEntity<>("202 OK", HttpStatus.OK);
     }
 
     @GetMapping("/reserva")
-    public String cambiarDbReseva() {
+    public ResponseEntity<String> cambiarDbReseva() {
         autonomicasDbConfig.changeDataSourceAuto("172.28.51.22");
         municipalesDbConfig.changeDataSourceMuni("172.28.51.22");
-        return "redirect:";
+        return new ResponseEntity<>("202 OK", HttpStatus.OK);
     }
 
     @GetMapping("/local")
-    public String cambiarDbLocal() {
+    public ResponseEntity<String> cambiarDbLocal() {
         autonomicasDbConfig.changeDataSourceAuto("127.0.0.1");
         municipalesDbConfig.changeDataSourceMuni("127.0.0.1");
-        return "redirect:";
+        return new ResponseEntity<>("202 OK", HttpStatus.OK);
     }
 
 }
