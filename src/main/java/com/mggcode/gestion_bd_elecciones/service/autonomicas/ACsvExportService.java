@@ -81,7 +81,7 @@ public class ACsvExportService {
                     cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(),
                     cir.getParticipacion(), cir.getParticipacionHistorico(), cir.getParticipacionMedia(), cir.getAvanceActual(), cir.getVotantes(),
                     cir.getEscaniosHistoricos(), cir.getAnioUltimosDatos(), cir.getMayoria(), cir.getAutonomiaOMunicipio(), cir.getParticipacionHist(),
-                    cDTO.getNumPartidos(), "Autonómicas"
+                    cDTO.getNumPartidos(), "1"
             );
 
             csvPrinter.printRecord("Cod Partido", "Cod Padre", "Escanios_Desde", "Escanios_Dasta",
