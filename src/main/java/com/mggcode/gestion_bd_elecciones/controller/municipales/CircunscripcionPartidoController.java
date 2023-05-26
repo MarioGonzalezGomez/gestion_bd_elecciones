@@ -124,8 +124,35 @@ public class CircunscripcionPartidoController {
     }
 
     //Mas votados en una Autonomia(De la que se pide codigo) por provincia (elimina los municipios)
-    @GetMapping("/mayorias/{codigo}")
-    public ResponseEntity<List<CircunscripcionPartido>> masVotadosAutonomicoPorProvincia(@PathVariable("codigo") String cod1) {
+    @GetMapping("/mayorias/oficial/{codigo}")
+    public ResponseEntity<List<CircunscripcionPartido>> masVotadosAutonomicoPorProvinciaOficial(@PathVariable("codigo") String cod1) {
+        List<CircunscripcionPartido> mayoritarios = circunscripcionPartidoService.findAll()
+                .stream().filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
+                .filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
+                .filter(x -> !x.getKey().getCircunscripcion().startsWith("99"))
+                .sorted(new CircunscripcionPartidoOficial().reversed())
+                .collect(Collectors.toList());
+
+        List<String> provincia = new ArrayList<>();
+        List<CircunscripcionPartido> filtrada = new ArrayList<>();
+        for (CircunscripcionPartido cp : mayoritarios) {
+            String codigo = cp.getKey().getCircunscripcion().substring(0, 4);
+            if (!provincia.contains(codigo)) {
+                filtrada.add(cp);
+                provincia.add(codigo);
+            }
+        }
+        //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
+        if (provincia.size() != 1) {
+            filtrada.remove(0);
+        }
+        filtrada.sort(new Comparador());
+        return new ResponseEntity<>(filtrada, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/mayorias/sondeo/{codigo}")
+    public ResponseEntity<List<CircunscripcionPartido>> masVotadosAutonomicoPorProvinciaSondeo(@PathVariable("codigo") String cod1) {
         List<CircunscripcionPartido> mayoritarios = circunscripcionPartidoService.findAll()
                 .stream().filter(x -> x.getKey().getCircunscripcion().startsWith(cod1.substring(0, 2)))
                 .filter(x -> x.getKey().getCircunscripcion().endsWith("000"))
@@ -154,7 +181,7 @@ public class CircunscripcionPartidoController {
     public void masVotadosAutonomicoPorProvinciaInCsv(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=\"CP_MasVotadoPorProvincia_" + cod1 + ".csv\"");
-        List<CircunscripcionPartido> cp = masVotadosAutonomicoPorProvincia(cod1).getBody();
+        List<CircunscripcionPartido> cp = masVotadosAutonomicoPorProvinciaOficial(cod1).getBody();
         csvExportService.writeCPToCsv(cp, servletResponse.getWriter());
     }
 
@@ -162,7 +189,7 @@ public class CircunscripcionPartidoController {
     public void masVotadosAutonomicoPorProvinciaInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=Mayorias_" + cod1 + "_PorProvincia.xlsx");
-        List<CircunscripcionPartido> cps = masVotadosAutonomicoPorProvincia(cod1).getBody();
+        List<CircunscripcionPartido> cps = masVotadosAutonomicoPorProvinciaOficial(cod1).getBody();
         ExcelExportService excelExportService = new ExcelExportService();
         excelExportService.writeToExcel((RandomAccess) cps, 3, servletResponse);
     }
