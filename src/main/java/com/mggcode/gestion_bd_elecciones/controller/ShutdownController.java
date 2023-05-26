@@ -16,6 +16,12 @@ public class ShutdownController implements ApplicationContextAware {
     public void shutdownContext() {
         System.out.println("Cerrando...");
         ((ConfigurableApplicationContext) context).close();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.exit(0);
     }
 
     @Override

@@ -52,7 +52,7 @@ public class CarmenDTOController {
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionOficial(cod1).stream()
-                .filter(x -> x.getEscanos_hasta() > 0.0)
+                .filter(x -> x.getEscanos_hasta() > 0)
                 .sorted(new CircunscripcionPartidoOficial().reversed())
                 .collect(Collectors.toList());
 
@@ -72,7 +72,7 @@ public class CarmenDTOController {
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
         List<CircunscripcionPartido> cp = cpCon.findByIdCircunscripcionSondeo(cod1).stream()
-                .filter(x -> x.getEscanos_hasta_sondeo() > 0.0)
+                .filter(x -> x.getEscanos_hasta_sondeo() > 0)
                 .sorted(new CircunscripcionPartidoSondeo().reversed())
                 .collect(Collectors.toList());
 
