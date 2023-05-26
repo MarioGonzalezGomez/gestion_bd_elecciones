@@ -73,7 +73,7 @@ public class AVistasController {
 
     @GetMapping("/cp/mayorias/{codigo}/vista")
     public String verMayoriasAutonomicas(@PathVariable("codigo") String cod, Model model) {
-        List<CircunscripcionPartido> cps = aCPController.masVotadosAutonomicoPorProvincia(cod).getBody();
+        List<CircunscripcionPartido> cps = aCPController.masVotadosAutonomicoPorProvinciaOficial(cod).getBody();
         model.addAttribute("cps", cps);
         model.addAttribute("rutaCSV", "/autonomicas/cp/mayorias/" + cod + "/csv");
         model.addAttribute("rutaExcel", "/autonomicas/cp/mayorias/" + cod + "/excel");
