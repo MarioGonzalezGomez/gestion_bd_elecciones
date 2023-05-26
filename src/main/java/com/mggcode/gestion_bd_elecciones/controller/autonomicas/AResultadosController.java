@@ -2,6 +2,7 @@ package com.mggcode.gestion_bd_elecciones.controller.autonomicas;
 
 import com.mggcode.gestion_bd_elecciones.DTO.autonomicas.ResultadosDTO;
 import com.mggcode.gestion_bd_elecciones.DTO.mapper.autonomicas.ResultadosDTOMapper;
+import com.mggcode.gestion_bd_elecciones.logic.autonomicas.ComparadorCombinado;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.autonomicas.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.service.autonomicas.ACsvExportService;
@@ -38,6 +39,7 @@ public class AResultadosController {
     public ResponseEntity<ResultadosDTO> getResultadosDTO(@PathVariable("codigo") String cod) {
         Circunscripcion circunscripcion = cirCon.findById(cod).getBody();
         List<CircunscripcionPartido> cps = cpCon.masVotadosAutonomicoPorProvincia(cod).getBody();
+        cps.sort(new ComparadorCombinado().reversed());
         List<String> nombreProvincias = new ArrayList<>();
         List<String> nombreGanadores = new ArrayList<>();
         cps.forEach(cp -> {
