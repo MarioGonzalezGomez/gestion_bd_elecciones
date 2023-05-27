@@ -58,7 +58,7 @@ public class CircunscripcionDTOMapper {
                 .votantes(c.getVotantes())
                 .escaniosHistoricos(c.getEscaniosHistoricos())
                 .mayoria(getMayoria(c.getEscanios()))
-                .autonomiaOMunicipio(0)
+                .votantesHistoricos(0)
                 .participacionHist(0.0)
                 .build();
     }

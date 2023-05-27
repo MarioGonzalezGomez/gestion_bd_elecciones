@@ -6,8 +6,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -25,8 +23,6 @@ public class GestionBdEleccionesApplication {
 
     @EventListener({ApplicationReadyEvent.class})
     void applicationReadyEvent() {
-        //System.out.println("Abriendo parte gráfica");
-        //browse("http://localhost:8080");
         System.out.println(ANSI_GREEN + "INICIANDO CLIENTE" + ANSI_RESET);
         runClient();
     }

@@ -25,5 +25,6 @@ public class CpDTO {
     private double aperturaArcoHastaSondeo;
     private int escanos_desde_sondeo;
     private int escanos_hasta_sondeo;
+    private int numVotantesHistoricos;
     private double porcentajeVotoSondeo;
 }

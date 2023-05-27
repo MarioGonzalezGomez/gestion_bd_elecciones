@@ -57,6 +57,7 @@ public class CarmenDTOMapper {
                     .escanos_desde_sondeo(x.getEscanos_desde_sondeo())
                     .escanos_hasta_sondeo(x.getEscanos_hasta_sondeo())
                     .porcentajeVotoSondeo(x.getPorcentajeVotoSondeo())
+                    .numVotantesHistoricos(x.getNumVotantesHistorico())
                     .posicionInicial(posicionesIniciales.get(0))
                     .aperturaArco(aperturas.get(0))
                     .posicionInicialDesdeSondeo(posicionesIniciales.get(1))

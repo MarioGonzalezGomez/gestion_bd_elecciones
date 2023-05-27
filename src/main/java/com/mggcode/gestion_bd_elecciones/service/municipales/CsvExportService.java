@@ -86,7 +86,7 @@ public class CsvExportService {
             csvPrinter.printRecord(cir.getCodigo(), cir.getCodigoComunidad(), cir.getCodigoProvincia(), cir.getCodigoMunicipio(),
                     cir.getNombreCircunscripcion(), cir.getEscrutado(), cir.getEscanios(),
                     cir.getParticipacion(), cir.getParticipacionHistorico(), cir.getParticipacionMedia(), cir.getAvanceActual(), cir.getVotantes(),
-                    cir.getEscaniosHistoricos(), cir.getAnioUltimosDatos(), cir.getMayoria(), cir.getAutonomiaOMunicipio(), cir.getParticipacionHist(),
+                    cir.getEscaniosHistoricos(), cir.getAnioUltimosDatos(), cir.getMayoria(), cir.getVotantesHistoricos(), cir.getParticipacionHist(),
                     cDTO.getNumPartidos(), "2"
             );
 

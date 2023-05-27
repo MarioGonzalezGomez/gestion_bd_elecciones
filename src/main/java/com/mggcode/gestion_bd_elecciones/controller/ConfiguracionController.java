@@ -19,16 +19,16 @@ public class ConfiguracionController {
     private ConfiguracionService configuracionService;
 
     @GetMapping()
-    public ResponseEntity<String> mostrarFormulario(Model model) {
+    public ResponseEntity<String> mostrarFormulario() {
         Configuracion configuracion = configuracionService.cargarConfiguracion();
-        model.addAttribute("configuracion", configuracion);
+        // model.addAttribute("configuracion", configuracion);
         return new ResponseEntity<>("202 OK", HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<String> guardarConfiguracion(@RequestBody String jsonConfiguracion) {
         Configuracion configuracion = convertirJsonAConfiguracion(jsonConfiguracion);
-        System.out.println(jsonConfiguracion);
+        //  System.out.println(jsonConfiguracion);
         configuracionService.guardarConfiguracion(configuracion);
         return new ResponseEntity<>("202 OK", HttpStatus.OK);
     }

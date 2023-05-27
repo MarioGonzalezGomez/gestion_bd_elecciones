@@ -29,8 +29,7 @@ public class CircunscripcionService implements IBaseService<Circunscripcion> {
 
     @Override
     public Circunscripcion findById(String id) {
-        Circunscripcion circunscripcionOptional = circunscripcionRepository.findCircunscripcionById(id);
-        return circunscripcionOptional;
+        return circunscripcionRepository.findCircunscripcionById(id);
     }
 
     @Override
