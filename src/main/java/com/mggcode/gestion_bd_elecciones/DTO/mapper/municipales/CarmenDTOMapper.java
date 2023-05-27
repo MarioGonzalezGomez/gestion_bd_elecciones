@@ -6,21 +6,28 @@ import com.mggcode.gestion_bd_elecciones.DTO.municipales.CarmenDTO;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Circunscripcion;
 import com.mggcode.gestion_bd_elecciones.model.municipales.CircunscripcionPartido;
 import com.mggcode.gestion_bd_elecciones.model.municipales.Partido;
+import lombok.NoArgsConstructor;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+@NoArgsConstructor
 public class CarmenDTOMapper {
     private final int gradosTotales = 180;
     private ArrayList<Double> posicionesIniciales;
     private ArrayList<Double> posicionesFinales;
     private ArrayList<Double> sumatorios;
 
+    private String avance;
+
+    public CarmenDTOMapper(String avance) {
+        this.avance = avance;
+    }
+
     public CarmenDTO toDTO(Circunscripcion c, Circunscripcion espania, List<CircunscripcionPartido> cp, List<Partido> p) {
-        CircunscripcionDTOMapper mapper = new CircunscripcionDTOMapper();
+        CircunscripcionDTOMapper mapper = new CircunscripcionDTOMapper(avance);
         CircunscripcionDTO cdto = mapper.toDTO(c, espania, getAnio(c.getCodigoComunidad()));
         posicionesIniciales = new ArrayList<>();
         posicionesIniciales.add(0.0);

@@ -46,8 +46,8 @@ public class CarmenDTOController {
 
     //Este DTO trae los partidos de una circunscripción dada por código
     // ordenados del modo en que Carmen necesita para sus gráficos
-    @GetMapping("/oficial/{codigo}")
-    public ResponseEntity<CarmenDTO> getCarmenDTOOficial(@PathVariable("codigo") String cod1) {
+    @GetMapping("/oficial/{codigo}/{avance}")
+    public ResponseEntity<CarmenDTO> getCarmenDTOOficial(@PathVariable("codigo") String cod1, @PathVariable("avance") String avance) {
 
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
@@ -60,14 +60,14 @@ public class CarmenDTOController {
         cp.forEach(x -> {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
-        CarmenDTOMapper mapper = new CarmenDTOMapper();
+        CarmenDTOMapper mapper = new CarmenDTOMapper(avance);
         CarmenDTO dto = mapper.toDTO(circunscripcion, espania, cp, partidos);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/sondeo/{codigo}")
-    public ResponseEntity<CarmenDTO> getCarmenDTOSondeo(@PathVariable("codigo") String cod1) {
+    @GetMapping("/sondeo/{codigo}/{avance}")
+    public ResponseEntity<CarmenDTO> getCarmenDTOSondeo(@PathVariable("codigo") String cod1, @PathVariable("avance") String avance) {
 
         Circunscripcion circunscripcion = cirCon.findById(cod1).getBody();
         Circunscripcion espania = cirCon.findById("9900000").getBody();
@@ -80,42 +80,33 @@ public class CarmenDTOController {
         cp.forEach(x -> {
             partidos.add(parCon.findById(x.getKey().getPartido()).getBody());
         });
-        CarmenDTOMapper mapper = new CarmenDTOMapper();
+        CarmenDTOMapper mapper = new CarmenDTOMapper(avance);
         CarmenDTO dto = mapper.toDTO(circunscripcion, espania, cp, partidos);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/oficial/{codigo}/csv")
-    public void getCarmenDTOInCsvOficial(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
-        servletResponse.setContentType("text/csv");
-        servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CarmenDTO_" + cod1 + ".csv\"");
-        CarmenDTO dto = getCarmenDTOOficial(cod1).getBody();
-        csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
-    }
-
     @RequestMapping(path = "/oficial/{codigo}/{avance}/csv")
-    public void getCarmenDTOInCsvOficial(@PathVariable("codigo") String cod1, @PathVariable("avance") int avance, HttpServletResponse servletResponse) throws IOException {
+    public void getCarmenDTOInCsvOficial(@PathVariable("codigo") String cod1, @PathVariable("avance") String avance, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CarmenDTO_" + cod1 + ".csv\"");
-        CarmenDTO dto = getCarmenDTOOficial(cod1).getBody();
-
+        CarmenDTO dto = getCarmenDTOOficial(cod1, avance).getBody();
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
     }
 
-    @RequestMapping(path = "/sondeo/{codigo}/csv")
-    public void getCarmenDTOInCsvSondeo(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+    @RequestMapping(path = "/sondeo/{codigo}/{avance}/csv")
+    public void getCarmenDTOInCsvSondeo(@PathVariable("codigo") String cod1, @PathVariable("avance") String avance, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CarmenDTO_" + cod1 + ".csv\"");
-        CarmenDTO dto = getCarmenDTOSondeo(cod1).getBody();
+        CarmenDTO dto = getCarmenDTOSondeo(cod1, avance).getBody();
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
     }
 
-    @RequestMapping(path = "/sondeo/especial/{codigo}/csv")
-    public void getCarmenDTOInCsvSondeoEspecial(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+    @RequestMapping(path = "/sondeo/especial/{codigo}/{avance}/csv")
+    public void getCarmenDTOInCsvSondeoEspecial(@PathVariable("codigo") String cod1, @PathVariable("avance") String avance, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; " + "filename=\"CarmenDTO_" + cod1 + ".csv\"");
-        CarmenDTO dto = getCarmenDTOSondeo(cod1).getBody();
+        CarmenDTO dto = getCarmenDTOSondeo(cod1, avance).getBody();
         dto.getCpDTO().forEach(cp -> {
             cp.setEscanos_desde(cp.getEscanos_desde_sondeo());
             cp.setEscanos_hasta(cp.getEscanos_hasta_sondeo());
@@ -124,22 +115,22 @@ public class CarmenDTOController {
         csvExportService.writeCarmenDTOToCsv(dto, servletResponse.getWriter());
     }
 
-    @RequestMapping(path = "/oficial/{codigo}/excel")
-    public void getCarmenDTOInExcel(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+    @RequestMapping(path = "/oficial/{codigo}/{avance}/excel")
+    public void getCarmenDTOInExcel(@PathVariable("codigo") String cod1, @PathVariable("avance") String avance, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=CarmenDTO_" + cod1 + ".xlsx");
-        CarmenDTO dto = getCarmenDTOOficial(cod1).getBody();
+        CarmenDTO dto = getCarmenDTOOficial(cod1, avance).getBody();
         List<CarmenDTO> listado = new ArrayList<>();
         listado.add(dto);
         ExcelExportService excelExportService = new ExcelExportService();
         excelExportService.writeToExcel((RandomAccess) listado, 4, servletResponse);
     }
 
-    @RequestMapping(path = "/sondeo/{codigo}/excel")
-    public void getCarmenDTOInExcelSondeo(@PathVariable("codigo") String cod1, HttpServletResponse servletResponse) throws IOException {
+    @RequestMapping(path = "/sondeo/{codigo}/{avance}/excel")
+    public void getCarmenDTOInExcelSondeo(@PathVariable("codigo") String cod1, @PathVariable("avance") String avance, HttpServletResponse servletResponse) throws IOException {
         servletResponse.setContentType("application/octet-stream");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=CarmenDTO_" + cod1 + ".xlsx");
-        CarmenDTO dto = getCarmenDTOSondeo(cod1).getBody();
+        CarmenDTO dto = getCarmenDTOSondeo(cod1, avance).getBody();
         List<CarmenDTO> listado = new ArrayList<>();
         listado.add(dto);
         ExcelExportService excelExportService = new ExcelExportService();

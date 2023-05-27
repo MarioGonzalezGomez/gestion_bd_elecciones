@@ -3,6 +3,7 @@ package com.mggcode.gestion_bd_elecciones.controller;
 import com.mggcode.gestion_bd_elecciones.config.AutonomicasDB;
 import com.mggcode.gestion_bd_elecciones.config.MunicipalesDB;
 import com.mggcode.gestion_bd_elecciones.model.DbActualResponse;
+import com.mggcode.gestion_bd_elecciones.model.Dummy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -37,12 +38,6 @@ public class HomeController {
     @GetMapping("/test")
     public ResponseEntity<String> testConnection() {
         return new ResponseEntity<>("Conexión establecida", HttpStatus.OK);
-    }
-
-    @GetMapping("/{codigo}")
-    public ResponseEntity<String> setAvance(@PathVariable("codigo") String cod) {
-        avance = cod;
-        return new ResponseEntity<>("202 OK", HttpStatus.OK);
     }
 
     @GetMapping("/dbactual")
