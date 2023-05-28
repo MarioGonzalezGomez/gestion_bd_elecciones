@@ -145,7 +145,7 @@ public class CircunscripcionPartidoController {
             }
         }
         //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
-        if (provincia.size() != 1) {
+        if (provincia.size() >= 1) {
             filtrada.remove(0);
         }
         filtrada.sort(new Comparador());
@@ -172,7 +172,7 @@ public class CircunscripcionPartidoController {
             }
         }
         //Si añadimos este remove(0) quitaríamos los datos de la CCAA, dejando solo el de sus provincias
-        if (provincia.size() != 1) {
+        if (provincia.size() >= 1) {
             filtrada.remove(0);
         }
         filtrada.sort(new Comparador());
